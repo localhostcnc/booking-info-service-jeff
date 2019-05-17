@@ -20,11 +20,11 @@ CREATE TABLE listings (
 
 CREATE TABLE bookings (
   id int NOT NULL AUTO_INCREMENT,
-  listing_id integer NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  month_of_booking int NOT NULL,
-  start_date int NOT NULL,
-  duration int NOT NULL,
+  listing_id integer DEFAULT NULL,
+  name VARCHAR(255) DEFAULT NULL,
+  month_of_booking int DEFAULT NULL,
+  start_date int DEFAULT NULL,
+  duration int DEFAULT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (listing_id)
     REFERENCES listings(id)

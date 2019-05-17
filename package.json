@@ -9,6 +9,9 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
+    "createDb": "mysql -u root -p < ./schema.sql",
+    "seed": "nodemon sqlDataGenerator.js",
+    "database" : "mysql -u root -p",
     "eslint": "eslint *.js"
   },
   "pre-commit": "eslint",

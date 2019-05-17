@@ -17,9 +17,8 @@
 
 ## Usage
 
-> 1. npm run initialize database (only if you haven't already run this)
-  2. npm start (starting the serving fills database upon connection)
-  3. comment out the database function as specified in the sqlDataGenerator.js file
+> 1. npm run createDb (only if you haven't already created the database this)
+  2. npm run seed (starting the serving fills database upon connection)
 
 ## Requirements
 
