@@ -1,13 +1,13 @@
-# Project Name
+# localhost CnC
 
 > Project description
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+- https://github.com/localhostcnc/top-image-bar
+- https://github.com/localhostcnc/reviewList-ak
+- https://github.com/localhostcnc/calendar-component-kt
+- https://github.com/localhostcnc/listinginfo
 
 ## Table of Contents
 
@@ -17,7 +17,9 @@
 
 ## Usage
 
-> Some usage instructions
+> 1. npm run initialize database (only if you haven't already run this)
+  2. npm start (starting the serving fills database upon connection)
+  3. comment out the database function as specified in the sqlDataGenerator.js file
 
 ## Requirements
 
@@ -34,6 +36,9 @@ From within the root directory:
 
 ```sh
 npm install -g webpack
-npm install
+npm install mysql
+npm install nodemon
+npm install faker
+npm install express
 ```
 
