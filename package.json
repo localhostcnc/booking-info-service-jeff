@@ -14,7 +14,8 @@
     "database": "mysql -u root -p",
     "eslint": "eslint *.js",
     "react-dev": "webpack -d --watch",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "supertest": "mocha 'test/apiTest.js'"
   },
   "pre-commit": "eslint",
   "dependencies": {
@@ -52,6 +53,7 @@
     "eslint-plugin-react": "^7.13.0",
     "lint-staged": "^8.1.7",
     "pre-commit": "^1.2.2",
+    "supertest": "^4.0.2",
     "webpack-cli": "^3.3.2"
   }
 }
