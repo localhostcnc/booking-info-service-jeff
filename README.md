@@ -18,7 +18,7 @@
 ## Usage
 
 > 1. npm run createDb (only if you haven't already created the database this)
-  2. npm run seed (starting the serving fills database upon connection)
+> 2. npm run seed (starting the serving fills database upon connection)
 
 ## Requirements
 
