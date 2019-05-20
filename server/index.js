@@ -20,3 +20,5 @@ app.get('/listings', (req, res) => {
     }
   });
 });
+
+module.exports = app;
