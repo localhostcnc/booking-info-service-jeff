@@ -1,6 +1,6 @@
 # localhost CnC
 
-> Group project where we replicated an airbnb item page 
+> Group project at Hack Reactor where we replicated an airbnb item page.
 
 ## Related Projects
 
