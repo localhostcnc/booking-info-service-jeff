@@ -34,6 +34,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <h1 className="title">Jeff's component</h1>
         <div>
           <Listings listings={this.state.displayListing} />
         </div>
