@@ -1,6 +1,6 @@
 # localhost CnC
 
-> Project description
+> Group project where we replicated an airbnb item page 
 
 ## Related Projects
 
