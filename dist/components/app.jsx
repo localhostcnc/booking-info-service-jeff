@@ -4,6 +4,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import styled from 'styled-components';
 // import Listings from './Listings.jsx';
 
@@ -16,6 +17,10 @@ const Price = styled.section`
   border: solid;
   width: 25%;
 `;
+=======
+import Listings from './Listings.jsx';
+import Calendar from './calendar/index.jsx';
+>>>>>>> cf0b8c162dabf6747cf1e12743b1d3fb36dd3836
 
 class App extends React.Component {
   constructor(props) {
@@ -61,11 +66,18 @@ class App extends React.Component {
 
   render() {
     return (
+<<<<<<< HEAD
       <Wrapper>
         <Price>{this.state.pricePerNight}</Price>
           <div>
             {/* <Listings listings={this.state.displayListing} /> */}
           </div>
+=======
+      <div>
+        <div>
+          <Calendar />
+          {/* <Listings listings={this.state.displayListing} /> */}
+>>>>>>> cf0b8c162dabf6747cf1e12743b1d3fb36dd3836
         </div>
       </Wrapper>
               <Footer>
