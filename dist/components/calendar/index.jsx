@@ -13,6 +13,9 @@ const Wrapper = styled.section`
   margin: 0;
   border-spacing: 0;
   border-collapse: collapse;
+  padding: 2px;
+  padding-top: 20px;
+  padding-bottom: 60px;
 `;
 
 const Weekday = styled.section`
@@ -41,23 +44,10 @@ const CalendarDay = styled.section`
 
 const CalendarTitle = styled.section`
   text-align: center;
-  font-size: 20px;
-  padding-bottom: 20px;
+  font-size: 18px;
   font-weight: bold;
+  padding: 10px;
 `;
-
-// display: table-cell;
-// text-align: center;
-// font-size: 12px;
-// padding: 10px;
-// table-layout: auto;
-// width: 10px;
-// width: fixed;
-// border: solid;
-// border-color: gray;
-// border-width: thin;
-// padding-top: none;
-
 
 const CalendarBody = styled.section`
   color: black;
@@ -134,9 +124,7 @@ class Calendar extends React.Component {
     return (
       <Wrapper>
         <CalendarTitle>
-          {this.month()}
-          {' '}
-          {this.year()}
+          {this.month()}{' '}{this.year()}
         </CalendarTitle>
         <Weekday>
           {eachDayOfWeek}
@@ -149,7 +137,7 @@ class Calendar extends React.Component {
   }
 }
 
-const now = moment();
+// const now = moment();
 const weekdayshort = moment.weekdaysShort();
 
 export default Calendar;
