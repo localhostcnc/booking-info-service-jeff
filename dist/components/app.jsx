@@ -4,9 +4,9 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import axios from 'axios';
-<<<<<<< HEAD
 import styled from 'styled-components';
 // import Listings from './Listings.jsx';
+import Calendar from './calendar/index.jsx';
 
 const Wrapper = styled.section`
   border: solid;
@@ -14,13 +14,60 @@ const Wrapper = styled.section`
 `;
 
 const Price = styled.section`
-  border: solid;
   width: 25%;
 `;
-=======
-import Listings from './Listings.jsx';
-import Calendar from './calendar/index.jsx';
->>>>>>> cf0b8c162dabf6747cf1e12743b1d3fb36dd3836
+
+const Reviews = styled.section`
+`;
+
+const DatesHeader = styled.section`
+  margin-left: 5%;
+`;
+
+const Dates = styled.section`
+  border: solid;
+  text-align: center;
+  margin-left: 5%;
+  margin-right: 5%;
+`;
+
+const GuestHeader = styled.section`
+  margin-top: 10px;
+  margin-left: 5%;
+`;
+
+const Guests = styled.section`
+  border: solid;
+  margin-left: 5%;
+  margin-right: 5%;
+`;
+
+const Book = styled.section`
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 20px;
+`;
+
+const ChargedYet = styled.section`
+  text-align: center;
+`;
+
+const Bar = styled.section`
+  border: solid;
+  border-width: thin;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+`;
+
+const Footer1 = styled.section``;
+
+const Footer2 = styled.section``;
+
+const LightBulb = styled.section``;
 
 class App extends React.Component {
   constructor(props) {
@@ -36,7 +83,9 @@ class App extends React.Component {
       serviceFee: '',
       occupationalFee: '',
       nameOfOwner: '',
-    };
+      showCalendar: false,
+    }
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -64,26 +113,53 @@ class App extends React.Component {
       });
   }
 
+  handleClick() {
+    this.setState({
+      showCalendar: !this.state.showCalendar,
+    });
+  }
+
   render() {
     return (
-<<<<<<< HEAD
       <Wrapper>
-        <Price>{this.state.pricePerNight}</Price>
-          <div>
-            {/* <Listings listings={this.state.displayListing} /> */}
-          </div>
-=======
-      <div>
-        <div>
-          <Calendar />
-          {/* <Listings listings={this.state.displayListing} /> */}
->>>>>>> cf0b8c162dabf6747cf1e12743b1d3fb36dd3836
-        </div>
+        <Price>
+          ${this.state.pricePerNight} / night
+        </Price>
+        <Reviews>
+          {this.state.reviews}*** {this.state.reviewCount}
+        </Reviews>
+        <Bar />
+        <DatesHeader>
+          Dates
+        </DatesHeader>
+        <Dates>
+          CheckIn -> CheckOut
+          <button onClick={this.handleClick}>
+            Press here to expose calendar!
+          </button>
+          {this.state.showCalendar && <Calendar />}
+        </Dates>
+        <GuestHeader>
+          Guests
+        </GuestHeader>
+        <Guests>
+          1 Guest
+        </Guests>
+        <Book>
+          <button type="submit">BOOK</button>
+        </Book>
+        <ChargedYet>
+          You won't be charged yet
+        </ChargedYet>
+        <Bar />
+        <Footer1>
+          This home is on people's minds.
+        </Footer1>
+        <Footer2>
+          It's been viewed 500+ times in the past week.
+        </Footer2>
+        <LightBulb />
       </Wrapper>
-              <Footer>
-              <h2>Report this listing</h2>
-            </Footer>
-      
     );
   }
 }
