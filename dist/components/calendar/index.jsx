@@ -1,9 +1,63 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
+
+const Wrapper = styled.section`
+  font-style: bold;
+  width: 24.5%;
+  margin: 0;
+  border-spacing: 0;
+  border-collapse: collapse;
+`;
+
+
+const Weekday = styled.section`
+  padding: 20px 2;
+  width: 100%;
+`;
+
+const DayOfMonth = styled.section`
+  margin-left: 10px;
+  margin-right: 10px;
+  textAlign: center;
+  padding-left: 3.3px;
+  fontStyle: bold;
+  display: inline;
+`;
+
+const CalendarDay = styled.section`
+  display: table-cell;
+  padding: 11px 11px 11px 11px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: auto;
+  border-width: thin;
+  border-color: gray;
+  text-align: center;
+  margin: 0;
+`;
+
+// display: table-cell;
+// text-align: center;
+// font-size: 12px;
+// padding: 10px;
+// table-layout: auto;
+// width: 10px;
+// width: fixed;
+// border: solid;
+// border-color: gray;
+// border-width: thin;
+// padding-top: none;
+
+
+const CalendarBody = styled.section`
+  color: black;
+`;
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -22,26 +76,28 @@ class Calendar extends React.Component {
     return firstDay;
   }
 
+
+
   render() {
     const eachDayOfWeek = weekdayshort.map(day => (
-      <td key={day} className="dayOfMonth">
+      <DayOfMonth key={day}>
         {day.slice(0, -1)}
-      </td>
+      </DayOfMonth>
     ));
 
     const fillerDays = [];
     for (let i = 0; i < this.placementOfFirstDayOfMonth(); i += 1) {
       fillerDays.push(
-        <tr className="calendar-day-empty"></tr>,
+        <CalendarDay style={{ border: 'none' }}></CalendarDay>,
       );
     }
 
     const daysInAMonth = [];
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d += 1) {
       daysInAMonth.push(
-        <tr key={d} className="calendar-day">
+        <CalendarDay style={{ border: 'solid', borderWidth: 'thin' }} key={d}>
           {d}
-        </tr>,
+        </CalendarDay>,
       );
     }
 
@@ -63,23 +119,27 @@ class Calendar extends React.Component {
       }
     });
 
-    const daysinmonth = totalCalendar.map((d, i) => {
+    const daysinmonth = rowsOfDays.map((d, i) => {
       return <tr>{d}</tr>;
     });
 
     return (
-      <table>
+      <Wrapper>
+        <table>
         <thead>
-          <tr>
-            <td className="weekdays">
-              {eachDayOfWeek}
-            </td>
-          </tr>
         </thead>
         <tbody>
-          {daysinmonth}
+          <tr>
+            <Weekday>
+              {eachDayOfWeek}
+            </Weekday>
+          </tr>
+          <CalendarBody>
+              {daysinmonth}
+          </CalendarBody>
         </tbody>
       </table>
+      </Wrapper>
     );
   }
 }
