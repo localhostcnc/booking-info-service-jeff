@@ -9,12 +9,11 @@ import styled from 'styled-components';
 
 const Wrapper = styled.section`
   font-style: bold;
-  width: 24.5%;
+  width: 22%;
   margin: 0;
   border-spacing: 0;
   border-collapse: collapse;
 `;
-
 
 const Weekday = styled.section`
   padding: 20px 2;
@@ -22,10 +21,9 @@ const Weekday = styled.section`
 `;
 
 const DayOfMonth = styled.section`
-  margin-left: 10px;
-  margin-right: 10px;
-  textAlign: center;
-  padding-left: 3.3px;
+
+  padding-left: 10.5px;
+  padding-right: 11px;
   fontStyle: bold;
   display: inline;
 `;
@@ -37,9 +35,15 @@ const CalendarDay = styled.section`
   overflow: hidden;
   width: auto;
   border-width: thin;
-  border-color: gray;
   text-align: center;
   margin: 0;
+`;
+
+const CalendarTitle = styled.section`
+  text-align: center;
+  font-size: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
 `;
 
 // display: table-cell;
@@ -76,7 +80,13 @@ class Calendar extends React.Component {
     return firstDay;
   }
 
+  month() {
+    return this.state.dateObject.format('MMMM');
+  }
 
+  year() {
+    return this.state.dateObject.format('YYYY');
+  }
 
   render() {
     const eachDayOfWeek = weekdayshort.map(day => (
@@ -95,7 +105,7 @@ class Calendar extends React.Component {
     const daysInAMonth = [];
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d += 1) {
       daysInAMonth.push(
-        <CalendarDay style={{ border: 'solid', borderWidth: 'thin' }} key={d}>
+        <CalendarDay style={{ border: 'solid', borderWidth: 'thin', borderColor: 'grey' }} key={d}>
           {d}
         </CalendarDay>,
       );
@@ -119,26 +129,21 @@ class Calendar extends React.Component {
       }
     });
 
-    const daysinmonth = rowsOfDays.map((d, i) => {
-      return <tr>{d}</tr>;
-    });
+    const daysinmonth = rowsOfDays.map(d => <tr>{d}</tr>);
 
     return (
       <Wrapper>
-        <table>
-        <thead>
-        </thead>
-        <tbody>
-          <tr>
-            <Weekday>
-              {eachDayOfWeek}
-            </Weekday>
-          </tr>
-          <CalendarBody>
-              {daysinmonth}
-          </CalendarBody>
-        </tbody>
-      </table>
+        <CalendarTitle>
+          {this.month()}
+          {' '}
+          {this.year()}
+        </CalendarTitle>
+        <Weekday>
+          {eachDayOfWeek}
+        </Weekday>
+        <CalendarBody>
+          {daysinmonth}
+        </CalendarBody>
       </Wrapper>
     );
   }
