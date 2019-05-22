@@ -4,14 +4,33 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import axios from 'axios';
-import Listings from './Listings.jsx';
+import styled from 'styled-components';
+// import Listings from './Listings.jsx';
+
+const Wrapper = styled.section`
+  border: solid;
+  width: 25%;
+`;
+
+const Price = styled.section`
+  border: solid;
+  width: 25%;
+`;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      displayListing: [],
+      pricePerNight: '',
+      minNumOfNights: '',
+      maxGuests: '',
+      municipalInfo: '',
+      reviewCount: '',
+      reviews: '',
+      serviceFee: '',
+      occupationalFee: '',
+      nameOfOwner: '',
     };
   }
 
@@ -22,9 +41,18 @@ class App extends React.Component {
   getListing() {
     axios.get('/listings')
       .then((response) => {
+        console.log(response.data[0]);
         this.setState({
-          displayListing: response.data,
-        });
+          pricePerNight: response.data[0].price_per_night,
+          minNumOfNights: response.data[0].min_nights,
+          maxGuests: response.data[0].max_guests,
+          municipalInfo: response.data[0].municipal_info,
+          reviewCount: response.data[0].review_count,
+          reviews: response.data[0].reviews,
+          serviceFee: response.data[0].service_fee,
+          occupationalFee: response.data[0].occupational_fee,
+          nameOfOwner: response.data[0].name_of_owner,
+        }, () => console.log(this.state));
       })
       .catch((error) => {
         console.log(error);
@@ -33,12 +61,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1 className="title">Jeff's component</h1>
-        <div>
-          <Listings listings={this.state.displayListing} />
+      <Wrapper>
+        <Price>{this.state.pricePerNight}</Price>
+          <div>
+            {/* <Listings listings={this.state.displayListing} /> */}
+          </div>
         </div>
-      </div>
+      </Wrapper>
+              <Footer>
+              <h2>Report this listing</h2>
+            </Footer>
+      
     );
   }
 }
