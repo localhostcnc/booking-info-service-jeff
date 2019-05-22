@@ -5,6 +5,7 @@
 import React from 'react';
 import axios from 'axios';
 import Listings from './Listings.jsx';
+import Calendar from './calendar/index.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,9 +35,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="title">Jeff's component</h1>
         <div>
-          <Listings listings={this.state.displayListing} />
+          <Calendar />
+          {/* <Listings listings={this.state.displayListing} /> */}
         </div>
       </div>
     );
