@@ -60,11 +60,10 @@ const ChargedYet = styled.section`
 const Bar = styled.section`
   border: solid;
   border-width: thin;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 2%;
+  margin-right: 2%;
   margin-top: 10px;
   margin-bottom: 10px;
-
 `;
 
 const Footer1 = styled.section``;
@@ -72,6 +71,23 @@ const Footer1 = styled.section``;
 const Footer2 = styled.section``;
 
 const LightBulb = styled.section``;
+
+const TotalPrice = styled.section`
+  text-align: left;
+`;
+
+const ServiceFee = styled.section`
+  text-align: left;
+`;
+
+const OccupancyFeeAndTaxes = styled.section`
+  text-align: left;
+`;
+
+const Total = styled.section`
+  text-align: left;
+  padding-bottom: 10px;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -88,8 +104,10 @@ class App extends React.Component {
       occupationalFee: '',
       nameOfOwner: '',
       showCalendar: false,
+      showBookingDetails: false,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleBookClick = this.handleBookClick.bind(this);
   }
 
   componentDidMount() {
@@ -122,6 +140,12 @@ class App extends React.Component {
     });
   }
 
+  handleBookClick() {
+    this.setState({
+      showBookingDetails: !this.state.showBookingDetails,
+    });
+  }
+
   render() {
     return (
       <Wrapper>
@@ -149,7 +173,30 @@ class App extends React.Component {
           1 Guest
         </Guests>
         <Book>
-          <button type="submit">BOOK</button>
+          {this.state.showBookingDetails
+            && (
+              <div>
+                <TotalPrice>
+                  {this.state.pricePerNight} x yNights ?
+                </TotalPrice>
+                <Bar />
+                <ServiceFee>
+                Service Fee: {this.state.serviceFee}
+                </ServiceFee>
+                <Bar />
+                <OccupancyFeeAndTaxes>
+                Occupany Fee and Taxes: {this.state.occupationalFee}
+                </OccupancyFeeAndTaxes>
+                <Bar />
+                <Total>
+              Total: {this.state.pricePerNight + this.state.serviceFee + this.state.occupationalFee}
+                </Total>
+              </div>
+            )
+          }
+          <button onClick={this.handleBookClick}>
+            CLICK HERE TO BOOK
+          </button>
         </Book>
         <ChargedYet>
           You won't be charged yet
