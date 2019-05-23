@@ -119,10 +119,8 @@ class App extends React.Component {
   getListing() {
     const randomIndex = Math.floor(random() * 100) + 1;
     axios.get('/listings')
-      
       .then((response) => {
         this.setState({
-<<<<<<< HEAD
           id: response.data[randomIndex].id,
           pricePerNight: response.data[randomIndex].price_per_night,
           minNumOfNights: response.data[randomIndex].min_nights,
@@ -133,18 +131,6 @@ class App extends React.Component {
           serviceFee: response.data[randomIndex].service_fee,
           occupationalFee: response.data[randomIndex].occupational_fee,
           nameOfOwner: response.data[randomIndex].name_of_owner,
-=======
-          id: response.data[0].id,
-          pricePerNight: response.data[0].price_per_night,
-          minNumOfNights: response.data[0].min_nights,
-          maxGuests: response.data[0].max_guests,
-          municipalInfo: response.data[0].municipal_info,
-          reviewCount: response.data[0].review_count,
-          reviews: response.data[0].reviews,
-          serviceFee: response.data[0].service_fee,
-          occupationalFee: response.data[0].occupational_fee,
-          nameOfOwner: response.data[0].name_of_owner,
->>>>>>> e3c051aa2eb55a4138ec2bdf42553921370ab7a9
         }, () => this.getBooking());
       })
       .catch((error) => {
