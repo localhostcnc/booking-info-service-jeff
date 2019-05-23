@@ -9,7 +9,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-// import Listings from './Listings.jsx';
+import random from 'math-random';
 import Calendar from './calendar/index.jsx';
 
 const Wrapper = styled.section`
@@ -94,6 +94,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      id: '',
       pricePerNight: '',
       minNumOfNights: '',
       maxGuests: '',
@@ -116,19 +117,21 @@ class App extends React.Component {
   }
 
   getListing() {
+    const randomIndex = Math.floor(random() * 100) + 1;
     axios.get('/listings')
       .then((response) => {
         this.setState({
-          pricePerNight: response.data[0].price_per_night,
-          minNumOfNights: response.data[0].min_nights,
-          maxGuests: response.data[0].max_guests,
-          municipalInfo: response.data[0].municipal_info,
-          reviewCount: response.data[0].review_count,
-          reviews: response.data[0].reviews,
-          serviceFee: response.data[0].service_fee,
-          occupationalFee: response.data[0].occupational_fee,
-          nameOfOwner: response.data[0].name_of_owner,
-        });
+          id: response.data[randomIndex].id,
+          pricePerNight: response.data[randomIndex].price_per_night,
+          minNumOfNights: response.data[randomIndex].min_nights,
+          maxGuests: response.data[randomIndex].max_guests,
+          municipalInfo: response.data[randomIndex].municipal_info,
+          reviewCount: response.data[randomIndex].review_count,
+          reviews: response.data[randomIndex].reviews,
+          serviceFee: response.data[randomIndex].service_fee,
+          occupationalFee: response.data[randomIndex].occupational_fee,
+          nameOfOwner: response.data[randomIndex].name_of_owner,
+        }, () => this.getBooking());
       })
       .catch((error) => {
         throw error;
@@ -136,11 +139,15 @@ class App extends React.Component {
   }
 
   getBooking() {
-    axios.get('/bookings')
+    axios.get('/bookings', {
+      params: {
+        ID: this.state.id,
+      },
+    })
       .then((response) => {
         this.setState({
           bookings: response.data,
-        });
+        }, () => console.log(this.state.bookings));
       })
       .catch((error) => {
         throw error;
