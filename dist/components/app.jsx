@@ -105,6 +105,7 @@ class App extends React.Component {
       nameOfOwner: '',
       showCalendar: false,
       showBookingDetails: false,
+      bookings: [],
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
@@ -127,6 +128,18 @@ class App extends React.Component {
           serviceFee: response.data[0].service_fee,
           occupationalFee: response.data[0].occupational_fee,
           nameOfOwner: response.data[0].name_of_owner,
+        });
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  getBooking() {
+    axios.get('/bookings')
+      .then((response) => {
+        this.setState({
+          bookings: response.data,
         });
       })
       .catch((error) => {
