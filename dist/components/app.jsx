@@ -94,6 +94,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      id: '',
       pricePerNight: '',
       minNumOfNights: '',
       maxGuests: '',
@@ -117,8 +118,10 @@ class App extends React.Component {
 
   getListing() {
     axios.get('/listings')
+      
       .then((response) => {
         this.setState({
+          id: response.data[0].id,
           pricePerNight: response.data[0].price_per_night,
           minNumOfNights: response.data[0].min_nights,
           maxGuests: response.data[0].max_guests,
@@ -128,7 +131,7 @@ class App extends React.Component {
           serviceFee: response.data[0].service_fee,
           occupationalFee: response.data[0].occupational_fee,
           nameOfOwner: response.data[0].name_of_owner,
-        });
+        }, () => this.getBooking());
       })
       .catch((error) => {
         throw error;
@@ -136,11 +139,15 @@ class App extends React.Component {
   }
 
   getBooking() {
-    axios.get('/bookings')
+    axios.get('/bookings', {
+      params: {
+        ID: this.state.id,
+      },
+    })
       .then((response) => {
         this.setState({
           bookings: response.data,
-        });
+        }, () => console.log(this.state.bookings));
       })
       .catch((error) => {
         throw error;
