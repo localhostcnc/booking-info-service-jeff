@@ -19,6 +19,18 @@ const getListings = (callback) => {
   });
 };
 
+const getBooking = (id, callback) => {
+  const numId = Number(id);
+  connec.query(`SELECT * from bookings WHERE listing_id = ${numId}`, (err, results) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 module.exports = {
   getListings,
+  getBooking,
 };
