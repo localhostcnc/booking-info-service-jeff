@@ -1,3 +1,7 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable import/extensions */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -84,7 +88,7 @@ class App extends React.Component {
       occupationalFee: '',
       nameOfOwner: '',
       showCalendar: false,
-    }
+    };
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -95,7 +99,6 @@ class App extends React.Component {
   getListing() {
     axios.get('/listings')
       .then((response) => {
-        console.log(response.data[0]);
         this.setState({
           pricePerNight: response.data[0].price_per_night,
           minNumOfNights: response.data[0].min_nights,
@@ -106,10 +109,10 @@ class App extends React.Component {
           serviceFee: response.data[0].service_fee,
           occupationalFee: response.data[0].occupational_fee,
           nameOfOwner: response.data[0].name_of_owner,
-        }, () => console.log(this.state));
+        });
       })
       .catch((error) => {
-        console.log(error);
+        throw error;
       });
   }
 

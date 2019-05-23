@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import moment from 'moment';
+import Moment from 'moment';
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
@@ -58,13 +59,13 @@ class Calendar extends React.Component {
     super(props);
 
     this.state = {
-      dateObject: moment(),
+      dateObject: Moment(),
     };
   }
 
   placementOfFirstDayOfMonth() {
     const { dateObject } = this.state;
-    const firstDay = moment(dateObject)
+    const firstDay = Moment(dateObject)
       .startOf('month')
       .format('d');
     return firstDay;
@@ -138,6 +139,6 @@ class Calendar extends React.Component {
 }
 
 // const now = moment();
-const weekdayshort = moment.weekdaysShort();
+const weekdayshort = Moment.weekdaysShort();
 
 export default Calendar;
