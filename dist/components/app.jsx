@@ -9,9 +9,10 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import axios from 'axios';
+import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 import random from 'math-random';
-import { createGlobalStyle } from 'styled-components';
+
 import Calendar from './calendar/index.jsx';
 
 
@@ -164,6 +165,15 @@ const Bar2 = styled.section`
   margin-top: 10px;
 `;
 
+const Bar3 = styled.section`
+  border: solid;
+  border-width: .5px;
+  border-color: #D0D0D0
+  margin-top: 10px;
+  margin-left: 3%;
+  margin-right: 3%;
+`;
+
 const Footer1 = styled.section`
   margin-top: 20px;
   margin-left: 8%;
@@ -182,19 +192,79 @@ const LightBulb = styled.section``;
 
 const TotalPrice = styled.section`
   text-align: left;
+  margin-left: 10px;
+  margin-top: -10px;
+  font-size: 14px;
+  font-weight: lighter;
+  display: inline-block;
+  margin-right: 210px;
 `;
 
 const ServiceFee = styled.section`
   text-align: left;
+  margin-left: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: lighter;
+  display: inline-block;
+  margin-right: 220px;
 `;
 
-const OccupancyFeeAndTaxes = styled.section`
+const OccupancyFeeAndTaxes = styled.section`  
   text-align: left;
+  margin-left: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: lighter;
+  display: inline-block;
+  margin-right: 132px;
+`;
+
+const Fee1 = styled.section`
+  text-align: right;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: lighter;
+`;
+
+const Fee2 = styled.section`
+  text-align: right;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: lighter;
+  font-size: 14px;
+  font-weight: lighter;
+`;
+
+const Fee3 = styled.section`
+  text-align: right;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: lighter;
 `;
 
 const Total = styled.section`
   text-align: left;
   padding-bottom: 10px;
+  margin-left: 10px;
+  margin-top: 7px;
+  font-size: 14px;
+  padding-bottom: 20px;
+  display: inline-block;
+  margin-right: 250px;
+  font-weight: bolder;
+`;
+
+const Fee4 = styled.section`
+  text-align: right;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bolder;
+  display: inline-block;
 `;
 
 class App extends React.Component {
@@ -317,22 +387,22 @@ class App extends React.Component {
       <div>
         <GlobalStyles />
         <Wrapper>
-        <Price>
+          <Price>
           ${this.state.pricePerNight}
         </Price>
-        <PerNight>
+          <PerNight>
           per night
         </PerNight>
-        <Reviews>
+          <Reviews>
           *** {this.state.reviewCount}
         </Reviews>
-        <Bar />
-        <DatesHeader>
+          <Bar />
+          <DatesHeader>
           Dates
         </DatesHeader>
-        <Dates>
+          <Dates>
           <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: this.state.checkInbgColor }}>
-            Check-in 
+            Check-in
           </CheckIn>
           <Arrow>
             ––>
@@ -342,33 +412,45 @@ class App extends React.Component {
           </CheckOut>
           {this.state.showCalendar && <Calendar bookings={this.state.bookings} />}
         </Dates>
-        <GuestHeader>
+          <GuestHeader>
           Guests
         </GuestHeader>
-        <GuestWrapper>
+          <GuestWrapper>
           <Guests>
             1 guest
           </Guests>
         </GuestWrapper>
-        <Book>
+          <Book>
           {this.state.showBookingDetails
             && (
               <div>
                 <TotalPrice>
-                  {this.state.pricePerNight} x yNights ?
+                  ${this.state.pricePerNight} x _ nights
                 </TotalPrice>
-                <Bar />
+                <Fee1>
+                  ?
+                </Fee1>
+                <Bar3 />
                 <ServiceFee>
-                Service Fee: {this.state.serviceFee}
+                  Service Fee
                 </ServiceFee>
-                <Bar2 />
+                <Fee2>
+                  ${this.state.serviceFee}
+                </Fee2>
+                <Bar3 />
                 <OccupancyFeeAndTaxes>
-                Occupany Fee and Taxes: {this.state.occupationalFee}
+                Occupany taxes and fees
                 </OccupancyFeeAndTaxes>
-                <Bar2 />
+                <Fee3>
+                ${this.state.occupationalFee}
+                </Fee3>
+                <Bar3 />
                 <Total>
-              Total: {this.state.pricePerNight + this.state.serviceFee + this.state.occupationalFee}
+                  Total
                 </Total>
+                <Fee4>
+                  ${this.state.pricePerNight + this.state.serviceFee + this.state.occupationalFee}
+                </Fee4>
               </div>
             )
           }
@@ -377,19 +459,19 @@ class App extends React.Component {
           </Button>
 
         </Book>
-        <ChargedYet>
+          <ChargedYet>
           You won't be charged yet
         </ChargedYet>
-        <Bar2 />
-        {/* TODO: conditionally render this with a randomizer */}
-        <Footer1>
+          <Bar2 />
+          {/* TODO: conditionally render this with a randomizer */}
+          <Footer1>
           This home is on people's minds.
         </Footer1>
-        <Footer2>
+          <Footer2>
           It's been viewed 500+ times in the past week.
         </Footer2>
-        <LightBulb />
-      </Wrapper>
+          <LightBulb />
+        </Wrapper>
       </div>
     );
   }
