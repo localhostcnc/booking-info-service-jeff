@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/destructuring-assignment */
@@ -60,8 +61,23 @@ class Calendar extends React.Component {
 
     this.state = {
       dateObject: Moment(),
+      currentBookings: [],
     };
+    this.handleBookings = this.handleBookings.bind(this);
   }
+
+  handleBookings() {
+    const currentBookings = this.props.bookings;
+    this.setState({
+      currentBookings,
+    });
+  }
+
+  // crossOutDay() {
+  //   const lengthOfMonth = this.state.dateObject.daysInMonth();
+  //   while()
+
+  // }
 
   placementOfFirstDayOfMonth() {
     const { dateObject } = this.state;
