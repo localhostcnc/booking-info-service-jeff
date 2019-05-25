@@ -13,11 +13,12 @@ import styled, { createGlobalStyle } from 'styled-components';
 import random from 'math-random';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLightbulb, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faLightbulb, faArrowRight, faStar } from '@fortawesome/free-solid-svg-icons';
 import Calendar from './calendar/index.jsx';
+import renderStars from './stars/renderStars.js';
 
 
-library.add(faLightbulb, faArrowRight);
+library.add(faLightbulb, faArrowRight, faStar);
 
 // import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -113,8 +114,8 @@ const GuestWrapper = styled.section`
   border-color: #D0D0D0
   margin-left: 8%;
   margin-right: 8%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 `;
 
 const Guests = styled.section`
@@ -405,7 +406,7 @@ class App extends React.Component {
           per night
           </PerNight>
           <Reviews>
-          *** {this.state.reviewCount}
+            <renderStars starCount={this.state.reviews} /> {this.state.reviewCount}
           </Reviews>
           <Bar />
           <DatesHeader>
