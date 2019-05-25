@@ -9,12 +9,17 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import axios from 'axios';
-import { createGlobalStyle } from 'styled-components';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import random from 'math-random';
-
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLightbulb, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Calendar from './calendar/index.jsx';
 
+
+library.add(faLightbulb, faArrowRight);
+
+// import { library } from '@fortawesome/fontawesome-svg-core';
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -179,6 +184,7 @@ const Footer1 = styled.section`
   margin-left: 8%;
   font-weight: bold;
   font-size: 14px;
+  margin-right: 30%;
 `;
 
 const Footer2 = styled.section`
@@ -186,9 +192,16 @@ const Footer2 = styled.section`
   font-size: 14px;
   margin-left: 8%;
   margin-bottom: 20px;
+  margin-right: 20%;
 `;
 
-const LightBulb = styled.section``;
+const LightBulb = styled.section`
+  float: right; 
+  width: 20%;
+  margin-bottom: 50px;
+  height: 100%;
+  padding-top: 28px;
+`;
 
 const TotalPrice = styled.section`
   text-align: left;
@@ -285,10 +298,10 @@ class App extends React.Component {
       showCalendar: false,
       showBookingDetails: false,
       bookings: [],
+      highlightedCheck: false,
       checkOutbgColor: '',
       checkInbgColor: '',
     };
-    // this.handleClick = this.handleClick.bind(this);
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
@@ -343,7 +356,7 @@ class App extends React.Component {
         });
         this.setState({
           bookings: allBooking,
-        });
+        }, () => console.log(this.state.bookings));
       })
       .catch((error) => {
         throw error;
@@ -351,24 +364,22 @@ class App extends React.Component {
   }
 
   handleCheckInClick() {
+    this.setState({
+      showCalendar: !this.state.showCalendar,
+    });
+
     if (this.state.showCalendar === false) {
       this.setState({
-        showCalendar: !this.state.showCalendar,
+        checkInbgColor: '#75efe3',
+        checkOutbgColor: '',
       });
     }
-
-    this.setState({
-      checkInbgColor: '#75efe3',
-      checkOutbgColor: '',
-    });
   }
 
   handleCheckOutClick() {
-    if (this.state.showCalendar === false) {
-      this.setState({
-        showCalendar: !this.state.showCalendar,
-      });
-    }
+    this.setState({
+      showCalendar: !this.state.showCalendar,
+    });
 
     this.setState({
       checkInbgColor: '',
@@ -389,39 +400,39 @@ class App extends React.Component {
         <Wrapper>
           <Price>
           ${this.state.pricePerNight}
-        </Price>
+          </Price>
           <PerNight>
           per night
-        </PerNight>
+          </PerNight>
           <Reviews>
           *** {this.state.reviewCount}
-        </Reviews>
+          </Reviews>
           <Bar />
           <DatesHeader>
           Dates
-        </DatesHeader>
+          </DatesHeader>
           <Dates>
-          <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: this.state.checkInbgColor }}>
+            <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: this.state.checkInbgColor }}>
             Check-in
-          </CheckIn>
-          <Arrow>
-            ––>
-          </Arrow>
-          <CheckOut onClick={this.handleCheckOutClick} style={{ backgroundColor: this.state.checkOutbgColor }}>
+            </CheckIn>
+            <Arrow>
+              <FontAwesomeIcon icon="arrow-right" />
+            </Arrow>
+            <CheckOut onClick={this.handleCheckOutClick} style={{ backgroundColor: this.state.checkOutbgColor }}>
             Checkout
-          </CheckOut>
-          {this.state.showCalendar && <Calendar bookings={this.state.bookings} />}
-        </Dates>
+            </CheckOut>
+            {this.state.showCalendar && <Calendar bookings={this.state.bookings} />}
+          </Dates>
           <GuestHeader>
           Guests
-        </GuestHeader>
+          </GuestHeader>
           <GuestWrapper>
-          <Guests>
+            <Guests>
             1 guest
-          </Guests>
-        </GuestWrapper>
+            </Guests>
+          </GuestWrapper>
           <Book>
-          {this.state.showBookingDetails
+            {this.state.showBookingDetails
             && (
               <div>
                 <TotalPrice>
@@ -454,23 +465,25 @@ class App extends React.Component {
               </div>
             )
           }
-          <Button onClick={this.handleBookClick}>
+            <Button onClick={this.handleBookClick}>
               Book
-          </Button>
+            </Button>
 
-        </Book>
+          </Book>
           <ChargedYet>
           You won't be charged yet
-        </ChargedYet>
+          </ChargedYet>
           <Bar2 />
           {/* TODO: conditionally render this with a randomizer */}
+          <LightBulb>
+            <FontAwesomeIcon icon="lightbulb" size="2x" />
+          </LightBulb>
           <Footer1>
           This home is on people's minds.
-        </Footer1>
+          </Footer1>
           <Footer2>
           It's been viewed 500+ times in the past week.
-        </Footer2>
-          <LightBulb />
+          </Footer2>
         </Wrapper>
       </div>
     );

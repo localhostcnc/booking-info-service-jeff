@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/self-closing-comp */
@@ -11,13 +12,15 @@ import styled from 'styled-components';
 
 const Wrapper = styled.section`
   font-style: bold;
-  width: 22%;
+  width: 103%;
   margin: 0;
   border-spacing: 0;
   border-collapse: collapse;
   padding: 2px;
   padding-top: 20px;
   padding-bottom: 60px;
+  border: solid;
+
 `;
 
 const Weekday = styled.section`
@@ -26,7 +29,6 @@ const Weekday = styled.section`
 `;
 
 const DayOfMonth = styled.section`
-
   padding-left: 10.5px;
   padding-right: 11px;
   fontStyle: bold;
@@ -39,20 +41,52 @@ const CalendarDay = styled.section`
   text-overflow: ellipsis;
   overflow: hidden;
   width: auto;
-  border-width: thin;
+  border-width: .25px;
   text-align: center;
   margin: 0;
+  color: #D0D0D0;
 `;
 
 const CalendarTitle = styled.section`
-  text-align: center;
   font-size: 18px;
   font-weight: bold;
-  padding: 10px;
+  height: 20px;
+  width: 200px;
+  margin-left: 50px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 `;
 
 const CalendarBody = styled.section`
   color: black;
+  border-color: #D0D0D0;
+  margin-left: 10px;
+`;
+
+const Title = styled.section`
+  color: black;
+  display: inline-block;
+  border: solid;
+
+`;
+
+// const ClearDates = styled.section`
+//   color: black;
+//   border-color: #D0D0D0;
+//   margin-left: 
+//   border: solid;
+// `;
+
+const RightArrow = styled.section`
+  border: solid;
+  display: inline-block;
+  margin-right: 50px;
+`;
+
+const LeftArrow = styled.section`
+  border: solid;
+  margin-left: 50px;
+  display: inline-block;
 `;
 
 class Calendar extends React.Component {
@@ -141,7 +175,16 @@ class Calendar extends React.Component {
     return (
       <Wrapper>
         <CalendarTitle>
-          {this.month()}{' '}{this.year()}
+          <LeftArrow>
+            
+          </LeftArrow>
+          <Title>
+            {this.month() + ' ' + this.year()}
+          </Title>
+          <RightArrow>
+            
+          </RightArrow>
+          
         </CalendarTitle>
         <Weekday>
           {eachDayOfWeek}
