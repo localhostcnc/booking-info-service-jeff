@@ -1,4 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faStar);
+
 
 const RenderStars = (props) => {
   const { count } = props;
@@ -21,17 +28,17 @@ const RenderStars = (props) => {
 
   return (
     <div style={GrayStars}>
-      <i className="fa fa-star" />
-      <i className="fa fa-star" />
-      <i className="fa fa-star" />
-      <i className="fa fa-star" />
-      <i className="fa fa-star" />
+      <FontAwesomeIcon icon="star" size="xs" />
+      <FontAwesomeIcon icon="star" size="xs" />
+      <FontAwesomeIcon icon="star" size="xs" />
+      <FontAwesomeIcon icon="star" size="xs" />
+      <FontAwesomeIcon icon="star" size="xs" />
       <div style={TealStars}>
-        <i className="fa fa-star" />
-        <i className="fa fa-star" />
-        <i className="fa fa-star" />
-        <i className="fa fa-star" />
-        <i className="fa fa-star" />
+        <FontAwesomeIcon icon="star" size="xs" />
+        <FontAwesomeIcon icon="star" size="xs" />
+        <FontAwesomeIcon icon="star" size="xs" />
+        <FontAwesomeIcon icon="star" size="xs" />
+        <FontAwesomeIcon icon="star" size="xs" />
       </div>
     </div>
   );
