@@ -1,3 +1,5 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable max-len */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/no-unescaped-entities */
@@ -9,282 +11,19 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import axios from 'axios';
-import styled, { createGlobalStyle } from 'styled-components';
 import random from 'math-random';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb, faArrowRight, faStar, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { GlobalStyles, Wrapper, Price, PerNight, Reviews, DatesHeader, Dates, CheckIn, CheckOut, Arrow, GuestHeader,
+  GuestWrapper, Guests, AngleDown, Book, Button, ChargedYet, Bar, Bar2, Bar3, Footer1, Footer2, LightBulb, TotalPrice,
+  ServiceFee, OccupancyFeeAndTaxes, Fee1, Fee2, Fee3, Fee4, Total } from './styles.js';
 import Calendar from './calendar/index.jsx';
 import RenderStars from './stars/renderStars.jsx';
-
 
 library.add(faLightbulb, faArrowRight, faStar, faAngleDown);
 
 // import { library } from '@fortawesome/fontawesome-svg-core';
-
-const GlobalStyles = createGlobalStyle`
-  body {
-    @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-    font-family: 'Notable', sans-serif;
-  }
-`;
-
-const Wrapper = styled.section`
-  border: solid;
-  border-width: 1px;
-  border-color: #D0D0D0
-  width: 30%;
-  color: #484848;
-`;
-
-const Price = styled.section`
-  margin-left: 8%;
-  padding-top: 20px;
-  display: inline-block;
-  font-size: 24px;
-  font-weight: bold;
-  margin-right: 2px;
-`;
-
-const PerNight = styled.section`
-  display: inline-block;
-  font-size: 12px;
-`;
-
-const Reviews = styled.section`
-  margin-left: 8%;
-  font-size: 12px;
-  padding-top: 2px;
-`;
-
-const DatesHeader = styled.section`
-  margin-left: 8%;
-  font-size: 12px;
-  padding-top: 10px;
-  font-weight: semi-bold;
-`;
-
-const Dates = styled.section`
-  border: solid;
-  border-width: 1px;
-  border-color: #D0D0D0
-  text-align: center;
-  margin-left: 8%;
-  margin-right: 8%;
-  padding: 8px;
-`;
-
-const CheckIn = styled.section`
-  display: inline-block;
-  color: gray;
-  font-size: 17px;
-  font-weight: lighter;
-  text-align: left;
-  padding: 5px 50px 5px 5px;
-  border-radius: 5px;
-`;
-
-const CheckOut = styled.section`
-  text-align: right;
-  display: inline-block;
-  color: gray;
-  font-size: 17px;
-  font-weight: lighter;
-  padding: 5px 50px 5px 5px;
-  border-radius: 5px;
-`;
-
-const Arrow = styled.section`
-  text-align: center;
-  display: inline-block;
-  padding-left: 12px;
-  padding-right: 10px;
-
-`;
-
-const GuestHeader = styled.section`
-  margin-left: 8%;
-  font-size: 12px;
-  padding-top: 10px;
-  font-weight: 400;
-`;
-
-const GuestWrapper = styled.section`
-  border: solid;
-  border-width: 1px;
-  border-color: #D0D0D0
-  margin-left: 8%;
-  margin-right: 8%;
-  padding-top: 14px;
-  padding-bottom: 14px;
-`;
-
-const Guests = styled.section`
-  margin-left: 5%;
-  text-align: left;
-  display: inline-block;
-  margin-right: 200px;
-  font-size: 17px;
-  font-weight: lighter;
-`;
-
-const AngleDown = styled.section`
-  display: inline-block;
-`;
-
-const Book = styled.section`
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 20px;
-`;
-
-const Button = styled.section`
-  margin-left: 2%;
-  margin-right: 2%;
-  border: solid;
-  color: white;
-  padding: 15px 50px 15px 50px;
-  background-color: #fc534e;
-  border-radius: 7px;
-  font-size: 16px;
-`;
-
-const ChargedYet = styled.section`
-  text-align: center;
-  font-size: 13px;
-  margin-top: -20px;
-  font-weight: 500;
-`;
-
-const Bar = styled.section`
-  border: solid;
-  border-width: .25px;
-  border-color: #D0D0D0
-  margin-left: 8%;
-  margin-right: 8%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const Bar2 = styled.section`
-  border: solid;
-  border-width: .5px;
-  border-color: #D0D0D0
-  margin-left: 8%;
-  margin-right: 8%;
-  margin-top: 10px;
-`;
-
-const Bar3 = styled.section`
-  border: solid;
-  border-width: .5px;
-  border-color: #D0D0D0
-  margin-top: 10px;
-  margin-left: 3%;
-  margin-right: 3%;
-`;
-
-const Footer1 = styled.section`
-  margin-top: 20px;
-  margin-left: 8%;
-  font-weight: bold;
-  font-size: 14px;
-  margin-right: 30%;
-`;
-
-const Footer2 = styled.section`
-  margin-top: 5px;
-  font-size: 14px;
-  margin-left: 8%;
-  margin-bottom: 20px;
-  margin-right: 20%;
-`;
-
-const LightBulb = styled.section`
-  float: right; 
-  width: 20%;
-  margin-bottom: 50px;
-  height: 100%;
-  padding-top: 28px;
-`;
-
-const TotalPrice = styled.section`
-  text-align: left;
-  margin-left: 10px;
-  margin-top: -10px;
-  font-size: 14px;
-  font-weight: lighter;
-  display: inline-block;
-  margin-right: 210px;
-`;
-
-const ServiceFee = styled.section`
-  text-align: left;
-  margin-left: 8px;
-  margin-top: 12px;
-  font-size: 14px;
-  font-weight: lighter;
-  display: inline-block;
-  margin-right: 220px;
-`;
-
-const OccupancyFeeAndTaxes = styled.section`  
-  text-align: left;
-  margin-left: 8px;
-  margin-top: 12px;
-  font-size: 14px;
-  font-weight: lighter;
-  display: inline-block;
-  margin-right: 132px;
-`;
-
-const Fee1 = styled.section`
-  text-align: right;
-  margin-right: 10px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: lighter;
-`;
-
-const Fee2 = styled.section`
-  text-align: right;
-  margin-right: 10px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: lighter;
-  font-size: 14px;
-  font-weight: lighter;
-`;
-
-const Fee3 = styled.section`
-  text-align: right;
-  margin-right: 10px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: lighter;
-`;
-
-const Total = styled.section`
-  text-align: left;
-  padding-bottom: 10px;
-  margin-left: 10px;
-  margin-top: 7px;
-  font-size: 14px;
-  padding-bottom: 20px;
-  display: inline-block;
-  margin-right: 250px;
-  font-weight: bolder;
-`;
-
-const Fee4 = styled.section`
-  text-align: right;
-  margin-right: 10px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bolder;
-  display: inline-block;
-`;
 
 class App extends React.Component {
   constructor(props) {
@@ -412,7 +151,7 @@ class App extends React.Component {
           </PerNight>
           <Reviews>
             <div style={{ display: 'inline-block' }}>
-              <RenderStars count={this.state.averageReview} star={<FontAwesomeIcon icon="lightbulb" />} /> 
+              <RenderStars count={this.state.averageReview} star={<FontAwesomeIcon icon="lightbulb" />} />
             </div>
             <div style={{ display: 'inline-block', marginLeft: '2px' }}>
               {this.state.reviewCount}
@@ -482,7 +221,6 @@ class App extends React.Component {
             <Button onClick={this.handleBookClick}>
               Book
             </Button>
-
           </Book>
           <ChargedYet>
           You won't be charged yet
