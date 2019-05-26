@@ -1,3 +1,4 @@
+/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
@@ -26,6 +27,8 @@ const Title = styled.section`
   border-radius: 5px;
   padding: 5px 5px 5px 5px;
 `;
+
+const Header = styled.section``;
 
 const AngleDown = styled.section`
   display: inline-block;
@@ -139,7 +142,7 @@ class GuestDropDown extends React.Component {
       adults: 1,
       kids: 0,
       infants: 0,
-      total: 1,
+      guestTotal: 1,
     };
     this.toggleGuestDrop = this.toggleGuestDrop.bind(this);
     this.closeClick = this.closeClick.bind(this);
@@ -155,8 +158,8 @@ class GuestDropDown extends React.Component {
     const { adults, kids, infants } = this.state;
     const totalGuests = adults + kids + infants;
     this.setState({
-      total: totalGuests,
-    });
+      guestTotal: totalGuests,
+    }, () => this.props.currentGuestTotal(totalGuests));
 
     //todo if total guests === this.props.maxGuests STOP
 
@@ -172,59 +175,63 @@ class GuestDropDown extends React.Component {
     });
   }
 
-  addAdult () {
-    if (this.state.total === this.props.maxGuests) {
+  addAdult() {
+    if (this.state.guestTotal === this.props.maxGuests) {
       this.setState({
-        currentTotal: this.state.currentTotal 
+        adults: this.state.adults,
+        guestTotal: this.state.guestTotal,
       });
+    } else {
+      this.setState({
+        adults: this.state.adults + 1,
+        guestTotal: this.state.guestTotal + 1,
+      }, () => this.currentTotal());
     }
-
-    this.setState({
-      adults: this.state.adults + 1,
-      currentTotal: this.state.currentTotal + 1,
-    }, () => this.currentTotal());
   }
 
-  deleteAdult () {
-    if (this.state.adults === 1){
-      
+  deleteAdult() {
+    if (this.state.adults === 1) {
+      this.setState({
+        adults: 1,
+        guestTotal: 1,
+      });
+    } else {
+      this.setState({
+        adults: this.state.adults - 1,
+        guestTotal: this.state.guestTotal - 1,
+      }, () => this.currentTotal());
     }
-
-    this.setState({
-      adults: this.state.adults - 1,
-      currentTotal: this.state.currentTotal - 1,
-    }, () => this.currentTotal());
   }
 
-  addKid () {
+  addKid() {
     this.setState({
       kids: this.state.kids + 1,
-      currentTotal: this.state.currentTotal + 1,
+      guestTotal: this.state.guestTotal + 1,
     }, () => this.currentTotal());
   }
 
-  deleteKid () {
-    if (this.state.adults === 1){
+  deleteKid() {
+    if (this.state.adults === 1) {
     }
     this.setState({
       kids: this.state.kids - 1,
-      currentTotal: this.state.currentTotal - 1,
+      guestTotal: this.state.guestTotal - 1,
     }, () => this.currentTotal());
   }
 
-  addInfant () {
+  addInfant() {
     this.setState({
       infants: this.state.infants + 1,
-      currentTotal: this.state.currentTotal + 1,
+      guestTotal: this.state.guestTotal + 1,
     }, () => this.currentTotal());
   }
 
-  deleteInfant () {
-    if (this.state.adults === 1){
+  deleteInfant() {
+    if (this.state.adults === 1) {
     }
     this.setState({
       infants: this.state.infants - 1,
-      currentTotal: this.state.currentTotal - 1,
+      guestTotal: this.state.guestTotal - 1,
     }, () => this.currentTotal());
   }
 
@@ -236,8 +243,8 @@ class GuestDropDown extends React.Component {
   }
 
   toggleGuestDrop() {
-    this.setState(prevState => ({
-      listOpen: !prevState.listOpen,
+    this.setState(({
+      listOpen: !this.state.listOpen,
     }));
   }
 
@@ -249,19 +256,19 @@ class GuestDropDown extends React.Component {
       guestPlural = 'guests';
     } else {
       guestPlural = 'guest';
-    };
+    }
 
     let highlightedDropDown = {};
     if (listOpen) {
       highlightedDropDown = { backgroundColor: '#75efe3' };
     }
     return (
-      <div>
-
-        <Wrapper onClick={() => this.toggleGuestDrop()}>
-          <div>
+        <div>
+        <Wrapper>
+            <div>
+          <Header onClick={() => this.toggleGuestDrop()}>
             <Title style={highlightedDropDown}>
-              {`${this.state.total} ${guestPlural}`}
+              {`${this.state.guestTotal} ${guestPlural}`}
             </Title>
             <AngleDown>
               {listOpen
@@ -269,7 +276,9 @@ class GuestDropDown extends React.Component {
                 : <FontAwesomeIcon icon="angle-down" size="lg" />
             }
             </AngleDown>
-          </div>
+          </Header>
+            </div>
+
 
           <div>
             { listOpen && (
@@ -320,14 +329,14 @@ class GuestDropDown extends React.Component {
               <MaxGuestsDetails>
               {this.props.maxGuests} guests maximum. Infants don’t count toward the number of guests.
               </MaxGuestsDetails>
-              <Close onClick={() => this.closeClick}>
+              <Close onClick={this.closeClick}>
                 Close
               </Close>
             </div>
             )}
           </div>
         </Wrapper>
-      </div>
+        </div>
     );
   }
 }

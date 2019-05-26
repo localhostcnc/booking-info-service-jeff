@@ -30,6 +30,7 @@ class App extends React.Component {
 
     this.state = {
       currentListing: {},
+      currentGuestTotal: '',
       showCalendar: false,
       showBookingDetails: false,
       bookings: [],
@@ -41,6 +42,7 @@ class App extends React.Component {
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
+    this.grabGuestTotal = this.grabGuestTotal.bind(this);
     this.showGuests = this.showGuests.bind(this);
   }
 
@@ -91,6 +93,12 @@ class App extends React.Component {
       });
   }
 
+  grabGuestTotal(guests) {
+    this.setState({
+      currentGuestTotal: guests,
+    });
+  }
+
   handleCheckInClick() {
     this.setState({
       showCalendar: !this.state.showCalendar,
@@ -136,7 +144,7 @@ class App extends React.Component {
         <GlobalStyles />
         <Wrapper>
           <Price>
-          ${currentListing.price_per_night}
+          ${currentListing.price_per_night} {console.log(this.state.currentGuestTotal)}
           </Price>
           <PerNight>
           per night
@@ -169,7 +177,7 @@ class App extends React.Component {
           Guests
           </GuestHeader>
           <GuestWrapper onClick={this.showGuests}>
-            <GuestDropDown maxGuests={currentListing.max_guests} />
+            <GuestDropDown maxGuests={currentListing.max_guests} currentGuestTotal={this.grabGuestTotal} />
           </GuestWrapper>
           <Book>
             {showBookingDetails
