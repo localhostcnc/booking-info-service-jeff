@@ -13,12 +13,12 @@ import styled, { createGlobalStyle } from 'styled-components';
 import random from 'math-random';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLightbulb, faArrowRight, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faLightbulb, faArrowRight, faStar, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import Calendar from './calendar/index.jsx';
-import renderStars from './stars/renderStars.js';
+import RenderStars from './stars/renderStars.jsx';
 
 
-library.add(faLightbulb, faArrowRight, faStar);
+library.add(faLightbulb, faArrowRight, faStar, faAngleDown);
 
 // import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -54,6 +54,7 @@ const PerNight = styled.section`
 const Reviews = styled.section`
   margin-left: 8%;
   font-size: 12px;
+  padding-top: 2px;
 `;
 
 const DatesHeader = styled.section`
@@ -122,9 +123,13 @@ const Guests = styled.section`
   margin-left: 5%;
   text-align: left;
   display: inline-block;
-  margin-right: 60px;
+  margin-right: 200px;
   font-size: 17px;
   font-weight: lighter;
+`;
+
+const AngleDown = styled.section`
+  display: inline-block;
 `;
 
 const Book = styled.section`
@@ -292,7 +297,7 @@ class App extends React.Component {
       maxGuests: '',
       municipalInfo: '',
       reviewCount: '',
-      reviews: '',
+      averageReview: '',
       serviceFee: '',
       occupationalFee: '',
       nameOfOwner: '',
@@ -323,7 +328,7 @@ class App extends React.Component {
           maxGuests: response.data[randomIndex].max_guests,
           municipalInfo: response.data[randomIndex].municipal_info,
           reviewCount: response.data[randomIndex].review_count,
-          reviews: response.data[randomIndex].reviews,
+          averageReview: response.data[randomIndex].reviews,
           serviceFee: response.data[randomIndex].service_fee,
           occupationalFee: response.data[randomIndex].occupational_fee,
           nameOfOwner: response.data[randomIndex].name_of_owner,
@@ -406,7 +411,12 @@ class App extends React.Component {
           per night
           </PerNight>
           <Reviews>
-            <renderStars starCount={this.state.reviews} /> {this.state.reviewCount}
+            <div style={{ display: 'inline-block' }}>
+              <RenderStars count={this.state.averageReview} star={<FontAwesomeIcon icon="lightbulb" />} /> 
+            </div>
+            <div style={{ display: 'inline-block', marginLeft: '2px' }}>
+              {this.state.reviewCount}
+            </div>
           </Reviews>
           <Bar />
           <DatesHeader>
@@ -431,6 +441,9 @@ class App extends React.Component {
             <Guests>
             1 guest
             </Guests>
+            <AngleDown>
+              <FontAwesomeIcon icon="angle-down" size="lg" />
+            </AngleDown>
           </GuestWrapper>
           <Book>
             {this.state.showBookingDetails
