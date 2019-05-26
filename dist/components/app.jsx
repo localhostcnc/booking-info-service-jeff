@@ -15,7 +15,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb, faArrowRight, faStar } from '@fortawesome/free-solid-svg-icons';
 import Calendar from './calendar/index.jsx';
-import renderStars from './stars/renderStars.js';
+import RenderStars from './stars/renderStars.jsx';
 
 
 library.add(faLightbulb, faArrowRight, faStar);
@@ -406,7 +406,7 @@ class App extends React.Component {
           per night
           </PerNight>
           <Reviews>
-            <renderStars starCount={this.state.reviews} /> {this.state.reviewCount}
+            <RenderStars count={this.state.reviews} /> {this.state.reviewCount}
           </Reviews>
           <Bar />
           <DatesHeader>
