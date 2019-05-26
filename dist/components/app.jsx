@@ -20,36 +20,28 @@ import { GlobalStyles, Wrapper, Price, PerNight, Reviews, DatesHeader, Dates, Ch
   ServiceFee, OccupancyFeeAndTaxes, Fee1, Fee2, Fee3, Fee4, Total } from './styles.js';
 import Calendar from './calendar/index.jsx';
 import RenderStars from './stars/renderStars.jsx';
+import GuestDropDown from './guestDropDown/guestDropDown.jsx';
 
 library.add(faLightbulb, faArrowRight, faStar, faAngleDown);
-
-// import { library } from '@fortawesome/fontawesome-svg-core';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      id: '',
-      pricePerNight: '',
-      minNumOfNights: '',
-      maxGuests: '',
-      municipalInfo: '',
-      reviewCount: '',
-      averageReview: '',
-      serviceFee: '',
-      occupationalFee: '',
-      nameOfOwner: '',
+      currentListing: {},
       showCalendar: false,
       showBookingDetails: false,
       bookings: [],
       highlightedCheck: false,
       checkOutbgColor: '',
       checkInbgColor: '',
+      showGuests: false,
     };
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
+    this.showGuests = this.showGuests.bind(this);
   }
 
   componentDidMount() {
@@ -60,17 +52,9 @@ class App extends React.Component {
     const randomIndex = Math.floor(random() * 100) + 1;
     axios.get('/listings')
       .then((response) => {
+        const listing = response.data[randomIndex];
         this.setState({
-          id: response.data[randomIndex].id,
-          pricePerNight: response.data[randomIndex].price_per_night,
-          minNumOfNights: response.data[randomIndex].min_nights,
-          maxGuests: response.data[randomIndex].max_guests,
-          municipalInfo: response.data[randomIndex].municipal_info,
-          reviewCount: response.data[randomIndex].review_count,
-          averageReview: response.data[randomIndex].reviews,
-          serviceFee: response.data[randomIndex].service_fee,
-          occupationalFee: response.data[randomIndex].occupational_fee,
-          nameOfOwner: response.data[randomIndex].name_of_owner,
+          currentListing: listing,
         }, () => this.getBooking());
       })
       .catch((error) => {
@@ -81,13 +65,12 @@ class App extends React.Component {
   getBooking() {
     axios.get('/bookings', {
       params: {
-        ID: this.state.id,
+        ID: this.state.currentListing.id,
       },
     })
       .then((response) => {
         const monthlyBooking = response.data;
         const allBooking = [];
-
         monthlyBooking.forEach((element) => {
           let length = element.duration;
           let startDate = element.start_date;
@@ -138,23 +121,31 @@ class App extends React.Component {
     });
   }
 
+  showGuests() {
+    this.setState({
+      showGuests: !this.state.showGuests,
+    });
+  }
+
   render() {
+    const { currentListing } = this.state;
+
     return (
       <div>
         <GlobalStyles />
         <Wrapper>
           <Price>
-          ${this.state.pricePerNight}
+          ${currentListing.price_per_night}
           </Price>
           <PerNight>
           per night
           </PerNight>
           <Reviews>
             <div style={{ display: 'inline-block' }}>
-              <RenderStars count={this.state.averageReview} star={<FontAwesomeIcon icon="lightbulb" />} />
+              <RenderStars count={currentListing.reviews} star={<FontAwesomeIcon icon="lightbulb" />} />
             </div>
             <div style={{ display: 'inline-block', marginLeft: '2px' }}>
-              {this.state.reviewCount}
+              {currentListing.review_count}
             </div>
           </Reviews>
           <Bar />
@@ -176,9 +167,9 @@ class App extends React.Component {
           <GuestHeader>
           Guests
           </GuestHeader>
-          <GuestWrapper>
+          <GuestWrapper onClick={this.showGuests}>
             <Guests>
-            1 guest
+              1 guest {this.state.showGuests && <GuestDropDown maxGuests={currentListing.max_guests} />}
             </Guests>
             <AngleDown>
               <FontAwesomeIcon icon="angle-down" size="lg" />
@@ -189,7 +180,7 @@ class App extends React.Component {
             && (
               <div>
                 <TotalPrice>
-                  ${this.state.pricePerNight} x _ nights
+                  ${currentListing.price_per_night} x _ nights
                 </TotalPrice>
                 <Fee1>
                   ?
@@ -199,21 +190,21 @@ class App extends React.Component {
                   Service Fee
                 </ServiceFee>
                 <Fee2>
-                  ${this.state.serviceFee}
+                  ${currentListing.service_fee}
                 </Fee2>
                 <Bar3 />
                 <OccupancyFeeAndTaxes>
                 Occupany taxes and fees
                 </OccupancyFeeAndTaxes>
                 <Fee3>
-                ${this.state.occupationalFee}
+                ${currentListing.occupational_fee}
                 </Fee3>
                 <Bar3 />
                 <Total>
                   Total
                 </Total>
                 <Fee4>
-                  ${this.state.pricePerNight + this.state.serviceFee + this.state.occupationalFee}
+                  ${currentListing.price_per_night + currentListing.service_fee + currentListing.occupational_fee}
                 </Fee4>
               </div>
             )
