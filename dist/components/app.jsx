@@ -16,7 +16,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb, faArrowRight, faStar, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { GlobalStyles, Wrapper, Price, PerNight, Reviews, DatesHeader, Dates, CheckIn, CheckOut, Arrow, GuestHeader,
-  GuestWrapper, Guests, AngleDown, Book, Button, ChargedYet, Bar, Bar2, Bar3, Footer1, Footer2, LightBulb, TotalPrice,
+  GuestWrapper, Book, Button, ChargedYet, Bar, Bar2, Bar3, Footer1, Footer2, LightBulb, TotalPrice,
   ServiceFee, OccupancyFeeAndTaxes, Fee1, Fee2, Fee3, Fee4, Total } from './styles.js';
 import Calendar from './calendar/index.jsx';
 import RenderStars from './stars/renderStars.jsx';
@@ -128,7 +128,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentListing } = this.state;
+    const { currentListing, checkOutbgColor, checkInbgColor, bookings, showCalendar,
+      showBookingDetails } = this.state;
 
     return (
       <div>
@@ -153,30 +154,25 @@ class App extends React.Component {
           Dates
           </DatesHeader>
           <Dates>
-            <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: this.state.checkInbgColor }}>
+            <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: checkInbgColor }}>
             Check-in
             </CheckIn>
             <Arrow>
               <FontAwesomeIcon icon="arrow-right" />
             </Arrow>
-            <CheckOut onClick={this.handleCheckOutClick} style={{ backgroundColor: this.state.checkOutbgColor }}>
+            <CheckOut onClick={this.handleCheckOutClick} style={{ backgroundColor: checkOutbgColor }}>
             Checkout
             </CheckOut>
-            {this.state.showCalendar && <Calendar bookings={this.state.bookings} />}
+            {showCalendar && <Calendar bookings={bookings} />}
           </Dates>
           <GuestHeader>
           Guests
           </GuestHeader>
           <GuestWrapper onClick={this.showGuests}>
-            <Guests>
-              1 guest {this.state.showGuests && <GuestDropDown maxGuests={currentListing.max_guests} />}
-            </Guests>
-            <AngleDown>
-              <FontAwesomeIcon icon="angle-down" size="lg" />
-            </AngleDown>
+            <GuestDropDown maxGuests={currentListing.max_guests} />
           </GuestWrapper>
           <Book>
-            {this.state.showBookingDetails
+            {showBookingDetails
             && (
               <div>
                 <TotalPrice>

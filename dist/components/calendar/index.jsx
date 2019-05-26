@@ -9,6 +9,8 @@
 import React from 'react';
 import Moment from 'moment';
 import styled from 'styled-components';
+import onClickOutside from 'react-onclickoutside';
+
 
 const Wrapper = styled.section`
   font-style: bold;
@@ -200,4 +202,4 @@ class Calendar extends React.Component {
 // const now = moment();
 const weekdayshort = Moment.weekdaysShort();
 
-export default Calendar;
+export default onClickOutside(Calendar);
