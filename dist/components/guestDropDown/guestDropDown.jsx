@@ -7,6 +7,7 @@
 import React from 'react';
 import onClickOutside from 'react-onclickoutside';
 import styled from 'styled-components';
+import ReactModal from 'react-modal';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -28,13 +29,20 @@ const Title = styled.section`
   padding: 5px 5px 5px 5px;
 `;
 
+const InfantTitle = styled.section`
+  display: inline-block;
+  margin-right: 180px;
+  margin-top: -100px;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+`;
+
 const Header = styled.section``;
 
 const AngleDown = styled.section`
   display: inline-block;
   float: right;
-  margin-right: 50px;
-  margin-top: -25px;
+  margin-right: 25px;
 `;
 
 const PlusCircle = styled.section`
@@ -45,7 +53,7 @@ const PlusCircle = styled.section`
   color: #368489;
   margin-top: 12px;
   margin-right: 15px;
-  padding: 4px 7px 4px 7px;
+  padding: 4px 6px 3.5px 6px;
   border-width: thin;
 `;
 
@@ -57,7 +65,7 @@ const MinusCircle = styled.section`
   color: #368489;
   margin-top: 12px;
   margin-right: 20px;
-  padding: 3.5px 6px 3.5px 6px;
+  padding: 4px 6px 3.5px 6px;
   opacity: 0.5;
   border-width: thin;
 `;
@@ -70,19 +78,11 @@ const TotalAdults = styled.section`
 `;
 
 const Adults = styled.section`
-  padding-top: 18px;
+  padding-top: 10px;
   margin-left: -6.5px;
   font-weight: normal;
   padding-bottom: 15px;
   display: inline-block;
-`;
-
-const Bar = styled.section`
-  border:solid;
-  margin-top: 12px;
-  margin-left: -17.5px;
-  border-width: 1px;
-  color: #368489;
 `;
 
 const Children = styled.section`
@@ -132,19 +132,37 @@ const Close = styled.section`
   color: #368489;
 `;
 
+const modalStyle = {
+  overlay: {
+    backgroundColor: 'none',
+  },
+  content: {
+    width: '21.75%',
+    marginTop: '200px',
+    marginLeft: '-1px',
+  },
+};
+
+ReactModal.setAppElement('#app');
 
 class GuestDropDown extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      listOpen: false,
+      modalOpen: false,
       adults: 1,
       kids: 0,
       infants: 0,
       guestTotal: 1,
+      showInfants: false,
     };
+    // modal open
     this.toggleGuestDrop = this.toggleGuestDrop.bind(this);
+
+    //after modal method
+
+    //modal close
     this.closeClick = this.closeClick.bind(this);
     this.addAdult = this.addAdult.bind(this);
     this.addKid = this.addKid.bind(this);
@@ -155,25 +173,19 @@ class GuestDropDown extends React.Component {
   }
 
   currentTotal() {
-    const { adults, kids, infants } = this.state;
-    const totalGuests = adults + kids + infants;
+    const { adults, kids } = this.state;
+    const totalGuests = adults + kids;
     this.setState({
       guestTotal: totalGuests,
     }, () => this.props.currentGuestTotal(totalGuests));
-
-    //todo if total guests === this.props.maxGuests STOP
-
-    // if (this.state.total === this.props.maxGuests){
-    //   this.set
-    // }
   }
 
-  handleClickOutside(event) {
-    event.preventDefault();
-    this.setState({
-      listOpen: false,
-    });
-  }
+  //   handleClickOutside(event) {
+  //     event.preventDefault();
+  //     this.setState({
+  //       modalOpen: false,
+  //     });
+  //   }
 
   addAdult() {
     if (this.state.guestTotal === this.props.maxGuests) {
@@ -204,108 +216,163 @@ class GuestDropDown extends React.Component {
   }
 
   addKid() {
-    this.setState({
-      kids: this.state.kids + 1,
-      guestTotal: this.state.guestTotal + 1,
-    }, () => this.currentTotal());
+    if (this.state.guestTotal === this.props.maxGuests) {
+      this.setState({
+        kids: this.state.kids,
+        guestTotal: this.state.guestTotal,
+      });
+    } else {
+      this.setState({
+        kids: this.state.kids + 1,
+        guestTotal: this.state.guestTotal + 1,
+      }, () => this.currentTotal());
+    }
   }
 
   deleteKid() {
-    if (this.state.adults === 1) {
+    if (this.state.kids === 0) {
+      this.setState({
+        kids: 0,
+      });
+    } else {
+      this.setState({
+        kids: this.state.kids - 1,
+        guestTotal: this.state.guestTotal - 1,
+      }, () => this.currentTotal());
     }
-    this.setState({
-      kids: this.state.kids - 1,
-      guestTotal: this.state.guestTotal - 1,
-    }, () => this.currentTotal());
   }
 
   addInfant() {
     this.setState({
       infants: this.state.infants + 1,
-      guestTotal: this.state.guestTotal + 1,
-    }, () => this.currentTotal());
+    });
   }
 
   deleteInfant() {
-    if (this.state.adults === 1) {
+    if (this.state.infants < 1) {
+      this.setState({
+        infants: 0,
+      });
+    } else {
+      this.setState({
+        infants: this.state.infants - 1,
+      });
     }
-    this.setState({
-      infants: this.state.infants - 1,
-      guestTotal: this.state.guestTotal - 1,
-    }, () => this.currentTotal());
   }
 
 
   closeClick() {
     this.setState({
-      listOpen: false,
+      modalOpen: false,
     });
   }
 
   toggleGuestDrop() {
     this.setState(({
-      listOpen: !this.state.listOpen,
+      modalOpen: !this.state.modalOpen,
     }));
   }
 
   render() {
-    const { total, listOpen, kids, infants, adults } = this.state;
+    const { modalOpen, kids, infants, adults, guestTotal, showInfants } = this.state;
 
     let guestPlural = '';
-    if (total > 1) {
+    if (guestTotal > 1) {
       guestPlural = 'guests';
     } else {
       guestPlural = 'guest';
     }
 
+    let plusOpacity = {};
+    if (guestTotal === this.props.maxGuests) {
+      plusOpacity = { opacity: '0.5' };
+    }
+
+    let minusOpacity = {};
+    if (adults > 1) {
+      minusOpacity = { opacity: '1' };
+    }
+
+    let minusOpacityKids = {};
+    if (kids > 0) {
+      minusOpacityKids = { opacity: '1'};
+    };
+
+    const plusOpacityKidsAndInfants = Object.assign({}, plusOpacity, { marginTop: '-20px' });
+    // const minusOpacityKids = Object.assign({}, minusOpacityKids, { marginTop: '-20px' });
+    const minusOpacityAndMarginKids = Object.assign({}, minusOpacityKids, { marginTop: '-20px' });
+    
+    let infantPlural = '';
+    if (infants > 1) {
+      infantPlural = 'infants';
+    } else {
+      infantPlural = 'infant';
+    }
+
+    if (infants > 0) {
+      this.setState({
+        showInfants: true,
+      });
+    }
+
     let highlightedDropDown = {};
-    if (listOpen) {
+    let highLightedInfant = {};
+    if (modalOpen) {
       highlightedDropDown = { backgroundColor: '#75efe3' };
+    } else if (modalOpen && showInfants) {
+      highlightedDropDown = {};
+      highLightedInfant = { backgroundColor: '#75efe3' };
     }
     return (
-        <div>
+
         <Wrapper>
-            <div>
           <Header onClick={() => this.toggleGuestDrop()}>
             <Title style={highlightedDropDown}>
-              {`${this.state.guestTotal} ${guestPlural}`}
+              {`${guestTotal} ${guestPlural}`}
             </Title>
+            { showInfants && (
+                <InfantTitle style={highLightedInfant}>
+                  {`${infants} ${infantPlural}`}
+                </InfantTitle>
+            )}
             <AngleDown>
-              {listOpen
+              {modalOpen
                 ? <FontAwesomeIcon icon="angle-up" size="lg" />
                 : <FontAwesomeIcon icon="angle-down" size="lg" />
             }
             </AngleDown>
           </Header>
-            </div>
 
-
-          <div>
-            { listOpen && (
+{/* 
+              // put modal here
+            { listOpen && ( */}
+            <ReactModal
+              isOpen={this.state.modalOpen}
+              style={modalStyle}
+              >
             <div>
-              <Bar />
               <Adults>
             Adults
               </Adults>
-              <PlusCircle onClick={this.addAdult}>
+              <PlusCircle onClick={this.addAdult} style={plusOpacity}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
               <TotalAdults>
               {adults}
               </TotalAdults>
-              <MinusCircle onClick={this.deleteAdult}>
+              <MinusCircle onClick={this.deleteAdult} style={minusOpacity}>
                 <FontAwesomeIcon icon="minus" />
               </MinusCircle>
               <Children>
             Children
               </Children>
-              <PlusCircle onClick={this.addKid} style={{ marginTop: '-20px' }}>
+              <PlusCircle onClick={this.addKid} style={plusOpacityKidsAndInfants}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
               <TotalAdults style={{ marginTop: '-17px' }}>
               {kids}
               </TotalAdults>
-              <MinusCircle onClick={this.deleteKid} style={{ marginTop: '-20px' }}>
+              <MinusCircle onClick={this.deleteKid} style={minusOpacityAndMarginKids}>
                 <FontAwesomeIcon icon="minus" />
               </MinusCircle>
               <ChildrenDetails>
@@ -314,7 +381,7 @@ class GuestDropDown extends React.Component {
               <Infants>
             Infants
               </Infants>
-              <PlusCircle onClick={this.addInfant} style={{ marginTop: '-20px' }}>
+              <PlusCircle onClick={this.addInfant} style={plusOpacityKidsAndInfants}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
               <TotalAdults style={{ marginTop: '-17px' }}>
@@ -333,10 +400,8 @@ class GuestDropDown extends React.Component {
                 Close
               </Close>
             </div>
-            )}
-          </div>
+            </ReactModal>
         </Wrapper>
-        </div>
     );
   }
 }
