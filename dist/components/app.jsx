@@ -15,7 +15,7 @@ import random from 'math-random';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb, faArrowRight, faStar, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { GlobalStyles, Wrapper, Price, PerNight, Reviews, DatesHeader, Dates, CheckIn, CheckOut, Arrow, GuestHeader,
+import { GlobalStyles, Wrapper, Price, PerNight, Reviews, DatesHeader, Dates, GuestHeader,
   GuestWrapper, Book, Button, ChargedYet, Bar, Bar2, Bar3, Footer1, Footer2, LightBulb, TotalPrice,
   ServiceFee, OccupancyFeeAndTaxes, Fee1, Fee2, Fee3, Fee4, Total } from './styles.js';
 import Calendar from './calendar/index.jsx';
@@ -39,8 +39,6 @@ class App extends React.Component {
       checkInbgColor: '',
       showGuests: false,
     };
-    this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
-    this.handleCheckInClick = this.handleCheckInClick.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
     this.grabGuestTotal = this.grabGuestTotal.bind(this);
     this.showGuests = this.showGuests.bind(this);
@@ -99,30 +97,6 @@ class App extends React.Component {
     });
   }
 
-  handleCheckInClick() {
-    this.setState({
-      showCalendar: !this.state.showCalendar,
-    });
-
-    if (this.state.showCalendar === false) {
-      this.setState({
-        checkInbgColor: '#75efe3',
-        checkOutbgColor: '',
-      });
-    }
-  }
-
-  handleCheckOutClick() {
-    this.setState({
-      showCalendar: !this.state.showCalendar,
-    });
-
-    this.setState({
-      checkInbgColor: '',
-      checkOutbgColor: '#75efe3',
-    });
-  }
-
   handleBookClick() {
     this.setState({
       showBookingDetails: !this.state.showBookingDetails,
@@ -136,8 +110,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentListing, checkOutbgColor, checkInbgColor, bookings, showCalendar,
-      showBookingDetails } = this.state;
+    const { currentListing, bookings, showBookingDetails } = this.state;
 
     return (
       <div>
@@ -162,16 +135,7 @@ class App extends React.Component {
           Dates
           </DatesHeader>
           <Dates>
-            <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: checkInbgColor }}>
-            Check-in
-            </CheckIn>
-            <Arrow>
-              <FontAwesomeIcon icon="arrow-right" />
-            </Arrow>
-            <CheckOut onClick={this.handleCheckOutClick} style={{ backgroundColor: checkOutbgColor }}>
-            Checkout
-            </CheckOut>
-            {showCalendar && <Calendar bookings={bookings} />}
+            <Calendar bookings={bookings} />
           </Dates>
           <GuestHeader>
           Guests

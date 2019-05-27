@@ -51,10 +51,11 @@ const PlusCircle = styled.section`
   border-radius:50%;
   border: solid;
   color: #368489;
-  margin-top: 12px;
+  margin-top: 8px;
   margin-right: 15px;
   padding: 4px 6px 3.5px 6px;
   border-width: thin;
+  margin-left: 10px;
 `;
 
 const MinusCircle = styled.section`
@@ -63,8 +64,9 @@ const MinusCircle = styled.section`
   border-radius:50%;
   border: solid;
   color: #368489;
-  margin-top: 12px;
-  margin-right: 20px;
+  margin-top: 8px;
+  margin-right: 10px;
+  margin-left: 20px;
   padding: 4px 6px 3.5px 6px;
   opacity: 0.5;
   border-width: thin;
@@ -73,27 +75,25 @@ const MinusCircle = styled.section`
 const TotalAdults = styled.section`
   float: right;
   display: inline-block;
-  margin-top: 17px;
-  margin-right: 24px;
+  margin-top: 12px;
+  margin-right: 13px;
+  margin-left: 13px;
 `;
 
 const Adults = styled.section`
   padding-top: 10px;
-  margin-left: -6.5px;
   font-weight: normal;
-  padding-bottom: 15px;
+  padding-bottom: 18px;
   display: inline-block;
 `;
 
 const Children = styled.section`
   padding-top: 18px;
-  margin-left: -6.5px;
   font-weight: normal;
   padding-bottom: 5px;
 `;
 
 const ChildrenDetails = styled.section`
-  margin-left: -6.5px;
   font-weight: thin;
   padding-bottom: 15px;
   font-size: 14px;
@@ -101,13 +101,11 @@ const ChildrenDetails = styled.section`
 
 const Infants = styled.section`
   padding-top: 18px;
-  margin-left: -6.5px;
   font-weight: normal;
   padding-bottom: 5px;
 `;
 
 const InfantDetails = styled.section`
-  margin-left: -6.5px;
   font-weight: thin;
   padding-bottom: 15px;
   font-size: 14px;
@@ -117,7 +115,6 @@ const MaxGuestsDetails = styled.section`
   padding-top: 10px;
   padding-bottom: 15px;
   padding-right: 20px;
-  margin-left: -6.5px;
   font-weight: thin;
   font-size: 14px;
 `;
@@ -127,7 +124,6 @@ const Close = styled.section`
   font-weight: normal;
   padding-bottom: 5px;
   padding-left: 200px;
-  margin-right: 20px;
   text-align: right;
   color: #368489;
 `;
@@ -137,9 +133,12 @@ const modalStyle = {
     backgroundColor: 'none',
   },
   content: {
-    width: '21.75%',
-    marginTop: '200px',
+    width: '22%',
+    marginTop: '205px',
     marginLeft: '-1px',
+    height: '270px',
+    position: 'absolute',
+    boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px',
   },
 };
 
@@ -295,12 +294,11 @@ class GuestDropDown extends React.Component {
 
     let minusOpacityKids = {};
     if (kids > 0) {
-      minusOpacityKids = { opacity: '1'};
-    };
+      minusOpacityKids = { opacity: '1' };
+    }
 
-    const plusOpacityKidsAndInfants = Object.assign({}, plusOpacity, { marginTop: '-20px' });
-    // const minusOpacityKids = Object.assign({}, minusOpacityKids, { marginTop: '-20px' });
-    const minusOpacityAndMarginKids = Object.assign({}, minusOpacityKids, { marginTop: '-20px' });
+    const plusOpacityKidsAndInfants = Object.assign({}, plusOpacity, { marginTop: '-17px' });
+    const minusOpacityAndMarginKids = Object.assign({}, minusOpacityKids, { marginTop: '-17px' });
     
     let infantPlural = '';
     if (infants > 1) {
@@ -342,14 +340,9 @@ class GuestDropDown extends React.Component {
             }
             </AngleDown>
           </Header>
-
-{/* 
-              // put modal here
-            { listOpen && ( */}
             <ReactModal
               isOpen={this.state.modalOpen}
-              style={modalStyle}
-              >
+              style={modalStyle}>
             <div>
               <Adults>
             Adults
@@ -369,7 +362,7 @@ class GuestDropDown extends React.Component {
               <PlusCircle onClick={this.addKid} style={plusOpacityKidsAndInfants}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
-              <TotalAdults style={{ marginTop: '-17px' }}>
+              <TotalAdults style={{ marginTop: '-14px' }}>
               {kids}
               </TotalAdults>
               <MinusCircle onClick={this.deleteKid} style={minusOpacityAndMarginKids}>
@@ -384,10 +377,10 @@ class GuestDropDown extends React.Component {
               <PlusCircle onClick={this.addInfant} style={plusOpacityKidsAndInfants}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
-              <TotalAdults style={{ marginTop: '-17px' }}>
+              <TotalAdults style={{ marginTop: '-14px' }}>
               {infants}
               </TotalAdults>
-              <MinusCircle onClick={this.deleteInfant} style={{ marginTop: '-20px' }}>
+              <MinusCircle onClick={this.deleteInfant} style={{ marginTop: '-17px' }}>
                 <FontAwesomeIcon icon="minus" />
               </MinusCircle>
               <InfantDetails>
@@ -406,4 +399,4 @@ class GuestDropDown extends React.Component {
   }
 }
 
-export default onClickOutside(GuestDropDown);
+export default GuestDropDown;
