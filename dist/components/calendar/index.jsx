@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable no-plusplus */
 /* eslint-disable react/sort-comp */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
@@ -19,6 +21,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { CheckIn, CheckOut, Arrow } from '../styles.js';
+import regeneratorRuntime from "regenerator-runtime";
 
 library.add(faArrowRight, faArrowLeft);
 
@@ -77,7 +80,7 @@ const Title = styled.section`
 // const ClearDates = styled.section`
 //   color: black;
 //   border-color: #D0D0D0;
-//   margin-left: 
+//   margin-left:
 //   border: solid;
 // `;
 
@@ -127,6 +130,8 @@ class Calendar extends React.Component {
       showCalendar: false,
       checkOutbgColor: '',
       checkInbgColor: '',
+      currentBookings: [],
+      checkInOn: false,
     };
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
@@ -135,12 +140,35 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    console.log('component did mount', this.handleBlockouts());
+    this.props.getBooking((err, results) => {
+      if (err) {
+        console.log('Response Error: ', err);
+      } else {
+        const monthlyBooking = results.data;
+        const allBooking = [];
+        monthlyBooking.forEach((element) => {
+          let length = element.duration;
+          let startDate = element.start_date;
+          const dates = [];
+          while (length > 0) {
+            dates.push(startDate);
+            startDate++;
+            length--;
+          }
+          allBooking.push({ month: element.month_of_booking, dates });
+        });
+        // sort booking data by date in ascending order
+        allBooking.sort((a, b) => new Date(a.checkin) - new Date(b.checkin));
+
+        this.setState({
+          currentBookings: allBooking,
+        }, () => console.log(this.state.currentBookings));
+      }
+    });
   }
 
   handleBlockouts() {
-    const allBookings = this.props.bookings;
-    console.log('in handle blockouts', allBookings);
+    // const allBookings = this.props.getBooking();
     const bookingsThisMonth = [];
     const datesThisMonth = [];
     allBookings.forEach((element) => {
@@ -155,31 +183,48 @@ class Calendar extends React.Component {
     //     datesThisMonth.push(element.dates[i]);
     //   }
     // });
-    return bookingsThisMonth;
+    // this.setState({
+    //   currentBookings: bookingsThisMonth,
+    // });
   }
 
   handleCheckInClick() {
-    this.setState({
-      showCalendar: !this.state.showCalendar,
-    });
-
     if (this.state.showCalendar === false) {
       this.setState({
         checkInbgColor: '#75efe3',
         checkOutbgColor: '',
+        checkInOn: true,
+        showCalendar: !this.state.showCalendar,
+      });
+    } else {
+      this.setState({
+        checkInbgColor: '',
+        checkOutbgColor: '',
+        checkInOn: false,
+        showCalendar: !this.state.showCalendar,
       });
     }
   }
 
   handleCheckOutClick() {
-    this.setState({
-      showCalendar: !this.state.showCalendar,
-    });
-
-    this.setState({
-      checkInbgColor: '',
-      checkOutbgColor: '#75efe3',
-    });
+    if (this.state.checkInOn && this.state.showCalendar) {
+      this.setState({
+        checkInbgColor: '',
+        checkOutbgColor: '#75efe3',
+        checkInOn: false,
+      });
+    } else if (this.state.showCalendar === false) {
+      this.setState({
+        checkInbgColor: '',
+        checkOutbgColor: '#75efe3',
+        showCalendar: !this.state.showCalendar,
+      });
+    } else if (!this.state.showCalendar) {
+      this.setState({
+        checkInbgColor: '',
+        checkOutbgColor: '',
+      });
+    }
   }
 
   placementOfFirstDayOfMonth() {
@@ -229,7 +274,6 @@ class Calendar extends React.Component {
 
   onDayClick(e) {
     const dayClicked = Number(e.target.innerText);
-    console.log(typeof Number(this.state.currentMonth.format('M')));
   }
 
   monthFormatter() {
@@ -269,8 +313,11 @@ class Calendar extends React.Component {
     return rowsOfDays.map(d => <tr onClick={(e) => { this.onDayClick(e); }}>{d}</tr>);
   }
 
+
+
   render() {
-    const { checkInbgColor, checkOutbgColor } = this.state;
+    const { showCalendar, checkInbgColor, checkOutbgColor } = this.state;
+
     return (
       <Wrapper>
         <CheckIn onClick={this.handleCheckInClick} style={{ backgroundColor: checkInbgColor }}>
@@ -279,11 +326,13 @@ class Calendar extends React.Component {
         <Arrow>
           <FontAwesomeIcon icon="arrow-right" />
         </Arrow>
-        <CheckOut style={{ backgroundColor: checkOutbgColor }}>
+        <CheckOut onClick={this.handleCheckOutClick} style={{ backgroundColor: checkOutbgColor }}>
             Checkout
         </CheckOut>
         <ReactModal
-          isOpen={this.state.showCalendar}
+          isOpen={showCalendar}
+          dismiss={this.hideModal}
+          onRequestClose={() => this.setState({ showCalendar: !this.state.showCalendar, checkInbgColor: '', checkOutbgColor: '' })}
           style={modalStyle}>
 
           {/* below is original files */}
@@ -297,7 +346,7 @@ class Calendar extends React.Component {
             <RightArrow onClick={this.moveToNextMonth}>
               <FontAwesomeIcon icon="arrow-right" />
             </RightArrow>
-          
+
           </CalendarTitle>
           <Weekday>
             {this.weekDayFormat()}

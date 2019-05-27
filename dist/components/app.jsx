@@ -42,6 +42,7 @@ class App extends React.Component {
     this.handleBookClick = this.handleBookClick.bind(this);
     this.grabGuestTotal = this.grabGuestTotal.bind(this);
     this.showGuests = this.showGuests.bind(this);
+    this.getBooking = this.getBooking.bind(this);
   }
 
   componentDidMount() {
@@ -62,32 +63,17 @@ class App extends React.Component {
       });
   }
 
-  getBooking() {
+  getBooking(callback) {
     axios.get('/bookings', {
       params: {
         ID: this.state.currentListing.id,
       },
     })
       .then((response) => {
-        const monthlyBooking = response.data;
-        const allBooking = [];
-        monthlyBooking.forEach((element) => {
-          let length = element.duration;
-          let startDate = element.start_date;
-          const dates = [];
-          while (length > 0) {
-            dates.push(startDate);
-            startDate++;
-            length--;
-          }
-          allBooking.push({ month: element.month_of_booking, dates });
-        });
-        this.setState({
-          bookings: allBooking,
-        }, () => console.log(this.state.bookings));
+        callback(null, response);
       })
       .catch((error) => {
-        throw error;
+        callback(error);
       });
   }
 
@@ -135,7 +121,7 @@ class App extends React.Component {
           Dates
           </DatesHeader>
           <Dates>
-            <Calendar bookings={bookings} />
+            <Calendar bookings={bookings} getBooking={this.getBooking} />
           </Dates>
           <GuestHeader>
           Guests
@@ -185,7 +171,6 @@ class App extends React.Component {
           You won't be charged yet
           </ChargedYet>
           <Bar2 />
-          {/* TODO: conditionally render this with a randomizer */}
           <LightBulb>
             <FontAwesomeIcon icon="lightbulb" size="2x" />
           </LightBulb>

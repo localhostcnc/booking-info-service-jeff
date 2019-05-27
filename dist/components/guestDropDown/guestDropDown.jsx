@@ -134,7 +134,7 @@ const modalStyle = {
   },
   content: {
     width: '22%',
-    marginTop: '205px',
+    marginTop: '200px',
     marginLeft: '-1px',
     height: '270px',
     position: 'absolute',
@@ -156,12 +156,8 @@ class GuestDropDown extends React.Component {
       guestTotal: 1,
       showInfants: false,
     };
-    // modal open
+
     this.toggleGuestDrop = this.toggleGuestDrop.bind(this);
-
-    //after modal method
-
-    //modal close
     this.closeClick = this.closeClick.bind(this);
     this.addAdult = this.addAdult.bind(this);
     this.addKid = this.addKid.bind(this);
@@ -321,6 +317,7 @@ class GuestDropDown extends React.Component {
       highlightedDropDown = {};
       highLightedInfant = { backgroundColor: '#75efe3' };
     }
+
     return (
 
         <Wrapper>
@@ -342,6 +339,7 @@ class GuestDropDown extends React.Component {
           </Header>
             <ReactModal
               isOpen={this.state.modalOpen}
+              onRequestClose={() => this.setState({ modalOpen: !this.state.modalOpen })}
               style={modalStyle}>
             <div>
               <Adults>
