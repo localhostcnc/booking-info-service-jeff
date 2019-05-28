@@ -16,12 +16,10 @@ import React from 'react';
 import Moment from 'moment';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
-import onClickOutside from 'react-onclickoutside';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { CheckIn, CheckOut, Arrow } from '../styles.js';
-import regeneratorRuntime from "regenerator-runtime";
 
 library.add(faArrowRight, faArrowLeft);
 
@@ -41,7 +39,7 @@ const Weekday = styled.section`
 const DayOfMonth = styled.section`
   padding-left: 10px;
   padding-right: 12px;
-  fontStyle: bold;
+  font-style: bold;
   display: inline;
 `;
 
@@ -51,11 +49,11 @@ const CalendarDay = styled.section`
   text-overflow: ellipsis;
   overflow: hidden;
   width: auto;
-  border-width: thin;
   text-align: center;
   margin-top: -1;
   margin-left: -1;
   color: #D0D0D0;
+  border: solid;
 `;
 
 const CalendarTitle = styled.section`
@@ -76,13 +74,6 @@ const CalendarBody = styled.section`
 const Title = styled.section`
   text-align: center;
 `;
-
-// const ClearDates = styled.section`
-//   color: black;
-//   border-color: #D0D0D0;
-//   margin-left:
-//   border: solid;
-// `;
 
 const RightArrow = styled.section`
   border: solid;
@@ -108,14 +99,30 @@ const LeftArrow = styled.section`
   color: #D0D0D0;
 `;
 
+const LittleTriangle = styled.section`
+  float: right;
+  margin-top: 30px;
+  margin-right: -12px;
+  border-color: transparent #368489 transparent transparent;
+  border-style: solid;
+  border-width: 25px 25px 0px 25px;
+  height: 0px;
+  width: 0px;
+  opacity: .75;
+  color: white;
+  text-align: center;
+`;
+
+
 const modalStyle = {
   overlay: {
     backgroundColor: 'none',
   },
   content: {
     width: '22.5%',
-    marginTop: '135px',
+    marginTop: '125px',
     marginLeft: '-1px',
+    borderTop: '2px solid #368489',
     height: '310px',
     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px',
   },
@@ -130,7 +137,9 @@ class Calendar extends React.Component {
       showCalendar: false,
       checkOutbgColor: '',
       checkInbgColor: '',
+      loading: 'initial',
       currentBookings: [],
+      bookingsThisMonth: [],
       checkInOn: false,
     };
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
@@ -139,53 +148,42 @@ class Calendar extends React.Component {
     this.moveToNextMonth = this.moveToNextMonth.bind(this);
   }
 
-  componentDidMount() {
-    // this.props.getBooking((err, results) => {
-    //   if (err) {
-    //     console.log('Response Error: ', err);
-    //   } else {
-    //     const monthlyBooking = results.data;
-    //     const allBooking = [];
-    //     monthlyBooking.forEach((element) => {
-    //       let length = element.duration;
-    //       let startDate = element.start_date;
-    //       const dates = [];
-    //       while (length > 0) {
-    //         dates.push(startDate);
-    //         startDate++;
-    //         length--;
-    //       }
-    //       allBooking.push({ month: element.month_of_booking, dates });
-    //     });
-    //     // sort booking data by date in ascending order
-    //     allBooking.sort((a, b) => new Date(a.checkin) - new Date(b.checkin));
-
-    //     this.setState({
-    //       currentBookings: allBooking,
-    //     }, () => console.log(this.state.currentBookings));
-    //   }
-    // });
+  loadData() {
+    const promise = new Promise((resolve, reject) => { 
+      setTimeout(() => {
+        resolve(this.props.bookings);
+      }, 1000);
+    });
+    return promise;
   }
 
-  handleBlockouts() {
-    // const allBookings = this.props.getBooking();
+  componentDidMount() {
+    this.setState({ loading: 'true' });
+    this.loadData()
+      .then((data) => {
+        this.setState({
+          currentBookings: data,
+          loading: 'false',
+        }, () => this.handleBlockouts(data));
+      });
+  }
+
+  handleBlockouts(currentlyBooked) {
     const bookingsThisMonth = [];
-    const datesThisMonth = [];
-    allBookings.forEach((element) => {
-      const comparisonMonth = Number(this.props.bookings[element]);
-      if (element.month === comparisonMonth) {
-        bookingsThisMonth.push(element);
+    currentlyBooked.forEach((element) => {
+      if (element.month === Number(this.state.currentMonth.format('M'))) {
+        bookingsThisMonth.push(element.dates);
       }
     });
-
-    // bookingsThisMonth.forEach((element) => {
-    //   for (let i = 0; i < element.dates.length; i += 1) {
-    //     datesThisMonth.push(element.dates[i]);
-    //   }
-    // });
-    // this.setState({
-    //   currentBookings: bookingsThisMonth,
-    // });
+    const setOfBookings = new Set();
+    bookingsThisMonth.forEach((element) => {
+      for (let i = 0; i < element.length; i++) {
+        setOfBookings.add(element[i]);
+      }
+    });
+    this.setState({
+      bookingsThisMonth: setOfBookings,
+    }, () => console.log(this.state.bookingsThisMonth));
   }
 
   handleCheckInClick() {
@@ -236,7 +234,6 @@ class Calendar extends React.Component {
   }
 
   previousMonth() {
-    console.log(this.state.currentMonth.format('MMMM').toString() === Moment().format('MMMM').toString());
     if (this.state.currentMonth.format('MMMM').toString() === Moment().format('MMMM').toString()) {
       this.setState({
         currentMonth: Moment(),
@@ -245,7 +242,7 @@ class Calendar extends React.Component {
       const lastMonth = Moment(this.state.currentMonth).subtract(1, 'months');
       this.setState({
         currentMonth: lastMonth,
-      });
+      }, () => this.handleBlockouts(this.state.currentBookings));
     }
   }
 
@@ -253,7 +250,7 @@ class Calendar extends React.Component {
     const nextMonth = Moment(this.state.currentMonth).add(1, 'months');
     this.setState({
       currentMonth: nextMonth,
-    });
+    }, () => this.handleBlockouts(this.state.currentBookings));
   }
 
   month() {
@@ -279,24 +276,45 @@ class Calendar extends React.Component {
   monthFormatter() {
     const fillerDays = [];
     const rowsOfDays = [];
+    const monthArr = [];
+    const iterateArr = [];
     let daysPerEachWeek = [];
-    const daysInAMonth = [];
+    const availableDaysInAMonth = [];
+    const blockedOffDaysInAMonth = [];
 
     for (let i = 0; i < this.placementOfFirstDayOfMonth(); i += 1) {
       fillerDays.push(
         <CalendarDay style={{ border: 'none' }}></CalendarDay>,
       );
     }
+
+    this.state.bookingsThisMonth.forEach((element) => {
+      monthArr.push(element);
+    });
+
     for (let d = 1; d <= this.state.currentMonth.daysInMonth(); d += 1) {
-      daysInAMonth.push(
-        <CalendarDay style={{ border: 'solid', borderWidth: 'thin', borderColor: 'grey' }} key={d}>
-          {d}
-        </CalendarDay>,
-      );
+      iterateArr.push(d);
     }
 
-    //  the total number of spaces to be rendered (included blank spaces at the front)
-    const totalCalendar = [...fillerDays, ...daysInAMonth];
+    for (let i = 1; i <= iterateArr.length; i++) {
+      if (monthArr.includes(iterateArr[i])) {
+        blockedOffDaysInAMonth.push(
+          <CalendarDay style={{ opacity: '.5', textDecoration: 'line-through', borderWidth: 'thin', fontColor: '#D0D0D0' }} key={i}>
+            {i}
+          </CalendarDay>,
+        );
+      } else {
+        availableDaysInAMonth.push(
+          <CalendarDay style={{ borderWidth: 'thin', borderColor: '#D0D0D0', color: 'black' }} key={i}>
+            {i}
+          </CalendarDay>,
+        );
+      }
+    }
+
+    const sortArr = [...availableDaysInAMonth, ...blockedOffDaysInAMonth];
+    sortArr.sort((a, b) => a.key - b.key);
+    const totalCalendar = [...fillerDays, ...sortArr];
 
     totalCalendar.forEach((row, i) => {
       if (i % 7 !== 0) {
@@ -312,8 +330,6 @@ class Calendar extends React.Component {
     });
     return rowsOfDays.map(d => <tr onClick={(e) => { this.onDayClick(e); }}>{d}</tr>);
   }
-
-
 
   render() {
     const { showCalendar, checkInbgColor, checkOutbgColor } = this.state;
@@ -334,8 +350,6 @@ class Calendar extends React.Component {
           dismiss={this.hideModal}
           onRequestClose={() => this.setState({ showCalendar: !this.state.showCalendar, checkInbgColor: '', checkOutbgColor: '' })}
           style={modalStyle}>
-
-          {/* below is original files */}
           <CalendarTitle>
             <LeftArrow onClick={this.previousMonth}>
               <FontAwesomeIcon icon="arrow-left" />
@@ -354,6 +368,9 @@ class Calendar extends React.Component {
           <CalendarBody>
             {this.monthFormatter()}
           </CalendarBody>
+          <LittleTriangle>
+            ?
+          </LittleTriangle>
         </ReactModal>
       </Wrapper>
     );

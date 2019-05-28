@@ -11,6 +11,7 @@ import ReactModal from 'react-modal';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { tsImportEqualsDeclaration } from '@babel/types';
 
 library.add(faAngleUp, faAngleDown, faPlus, faMinus);
 
@@ -136,9 +137,10 @@ const modalStyle = {
   },
   content: {
     width: '22%',
-    marginTop: '200px',
+    marginTop: '199px',
     marginLeft: '-1px',
     height: '270px',
+    borderTop: '2px solid #368489',
     position: 'absolute',
     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px',
   },
@@ -242,7 +244,7 @@ class GuestDropDown extends React.Component {
   deleteInfant() {
     if (this.state.infants < 1) {
       this.setState({
-        infants: 0,
+        showInfants: false,
       });
     } else {
       this.setState({
@@ -289,8 +291,14 @@ class GuestDropDown extends React.Component {
       minusOpacityKids = { opacity: '1' };
     }
 
+    let minusOpacityInfants = {};
+    if (infants > 0) {
+      minusOpacityInfants = { opacity: '1' };
+    }
+
     const plusOpacityKidsAndInfants = Object.assign({}, plusOpacity, { marginTop: '-16px' });
     const minusOpacityAndMarginKids = Object.assign({}, minusOpacityKids, { marginTop: '-16px' });
+    const minusOpacityInfantsAndMargin = Object.assign({}, minusOpacityInfants, { marginTop: '-17px' });
     
     let infantPlural = '';
     if (infants > 1) {
@@ -370,7 +378,7 @@ class GuestDropDown extends React.Component {
               <TotalAdults style={{ marginTop: '-12px' }}>
               {infants}
               </TotalAdults>
-              <MinusCircle onClick={this.deleteInfant} style={{ marginTop: '-17px' }}>
+              <MinusCircle onClick={this.deleteInfant} style={minusOpacityInfantsAndMargin}>
                 <FontAwesomeIcon icon="minus" />
               </MinusCircle>
               <InfantDetails>
