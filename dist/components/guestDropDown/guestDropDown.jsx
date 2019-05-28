@@ -31,10 +31,11 @@ const Title = styled.section`
 
 const InfantTitle = styled.section`
   display: inline-block;
-  margin-right: 180px;
-  margin-top: -100px;
   border-radius: 5px;
   padding: 5px 5px 5px 5px;
+  float: left;
+  margin-top: -29px;
+  margin-left: 80px;
 `;
 
 const Header = styled.section``;
@@ -43,6 +44,7 @@ const AngleDown = styled.section`
   display: inline-block;
   float: right;
   margin-right: 25px;
+  position: absolute;
 `;
 
 const PlusCircle = styled.section`
@@ -51,7 +53,7 @@ const PlusCircle = styled.section`
   border-radius:50%;
   border: solid;
   color: #368489;
-  margin-top: 8px;
+  margin-top: 7px;
   margin-right: 15px;
   padding: 4px 6px 3.5px 6px;
   border-width: thin;
@@ -64,7 +66,7 @@ const MinusCircle = styled.section`
   border-radius:50%;
   border: solid;
   color: #368489;
-  margin-top: 8px;
+  margin-top: 7px;
   margin-right: 10px;
   margin-left: 20px;
   padding: 4px 6px 3.5px 6px;
@@ -82,14 +84,14 @@ const TotalAdults = styled.section`
 
 const Adults = styled.section`
   padding-top: 10px;
-  font-weight: normal;
+  font-weight: bold;
   padding-bottom: 18px;
   display: inline-block;
 `;
 
 const Children = styled.section`
   padding-top: 18px;
-  font-weight: normal;
+  font-weight: bold;
   padding-bottom: 5px;
 `;
 
@@ -101,7 +103,7 @@ const ChildrenDetails = styled.section`
 
 const Infants = styled.section`
   padding-top: 18px;
-  font-weight: normal;
+  font-weight: bold;
   padding-bottom: 5px;
 `;
 
@@ -134,7 +136,7 @@ const modalStyle = {
   },
   content: {
     width: '22%',
-    marginTop: '205px',
+    marginTop: '200px',
     marginLeft: '-1px',
     height: '270px',
     position: 'absolute',
@@ -156,12 +158,8 @@ class GuestDropDown extends React.Component {
       guestTotal: 1,
       showInfants: false,
     };
-    // modal open
+
     this.toggleGuestDrop = this.toggleGuestDrop.bind(this);
-
-    //after modal method
-
-    //modal close
     this.closeClick = this.closeClick.bind(this);
     this.addAdult = this.addAdult.bind(this);
     this.addKid = this.addKid.bind(this);
@@ -178,13 +176,6 @@ class GuestDropDown extends React.Component {
       guestTotal: totalGuests,
     }, () => this.props.currentGuestTotal(totalGuests));
   }
-
-  //   handleClickOutside(event) {
-  //     event.preventDefault();
-  //     this.setState({
-  //       modalOpen: false,
-  //     });
-  //   }
 
   addAdult() {
     if (this.state.guestTotal === this.props.maxGuests) {
@@ -244,6 +235,7 @@ class GuestDropDown extends React.Component {
   addInfant() {
     this.setState({
       infants: this.state.infants + 1,
+      showInfants: true,
     });
   }
 
@@ -297,8 +289,8 @@ class GuestDropDown extends React.Component {
       minusOpacityKids = { opacity: '1' };
     }
 
-    const plusOpacityKidsAndInfants = Object.assign({}, plusOpacity, { marginTop: '-17px' });
-    const minusOpacityAndMarginKids = Object.assign({}, minusOpacityKids, { marginTop: '-17px' });
+    const plusOpacityKidsAndInfants = Object.assign({}, plusOpacity, { marginTop: '-16px' });
+    const minusOpacityAndMarginKids = Object.assign({}, minusOpacityKids, { marginTop: '-16px' });
     
     let infantPlural = '';
     if (infants > 1) {
@@ -307,32 +299,29 @@ class GuestDropDown extends React.Component {
       infantPlural = 'infant';
     }
 
-    if (infants > 0) {
-      this.setState({
-        showInfants: true,
-      });
-    }
-
     let highlightedDropDown = {};
-    let highLightedInfant = {};
     if (modalOpen) {
       highlightedDropDown = { backgroundColor: '#75efe3' };
-    } else if (modalOpen && showInfants) {
+    } else if (modalOpen) {
       highlightedDropDown = {};
+    }
+
+    let highLightedInfant = {};
+    if (showInfants && modalOpen) {
       highLightedInfant = { backgroundColor: '#75efe3' };
     }
+
     return (
 
         <Wrapper>
           <Header onClick={() => this.toggleGuestDrop()}>
             <Title style={highlightedDropDown}>
-              {`${guestTotal} ${guestPlural}`}
-            </Title>
-            { showInfants && (
+              {`${guestTotal} ${guestPlural}`}</Title> { showInfants && (
                 <InfantTitle style={highLightedInfant}>
                   {`${infants} ${infantPlural}`}
                 </InfantTitle>
-            )}
+              )}
+           
             <AngleDown>
               {modalOpen
                 ? <FontAwesomeIcon icon="angle-up" size="lg" />
@@ -342,6 +331,7 @@ class GuestDropDown extends React.Component {
           </Header>
             <ReactModal
               isOpen={this.state.modalOpen}
+              onRequestClose={() => this.setState({ modalOpen: !this.state.modalOpen })}
               style={modalStyle}>
             <div>
               <Adults>
@@ -362,7 +352,7 @@ class GuestDropDown extends React.Component {
               <PlusCircle onClick={this.addKid} style={plusOpacityKidsAndInfants}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
-              <TotalAdults style={{ marginTop: '-14px' }}>
+              <TotalAdults style={{ marginTop: '-12px' }}>
               {kids}
               </TotalAdults>
               <MinusCircle onClick={this.deleteKid} style={minusOpacityAndMarginKids}>
@@ -377,7 +367,7 @@ class GuestDropDown extends React.Component {
               <PlusCircle onClick={this.addInfant} style={plusOpacityKidsAndInfants}>
                   <FontAwesomeIcon icon="plus" />
               </PlusCircle>
-              <TotalAdults style={{ marginTop: '-14px' }}>
+              <TotalAdults style={{ marginTop: '-12px' }}>
               {infants}
               </TotalAdults>
               <MinusCircle onClick={this.deleteInfant} style={{ marginTop: '-17px' }}>
