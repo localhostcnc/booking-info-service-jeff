@@ -140,31 +140,31 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getBooking((err, results) => {
-      if (err) {
-        console.log('Response Error: ', err);
-      } else {
-        const monthlyBooking = results.data;
-        const allBooking = [];
-        monthlyBooking.forEach((element) => {
-          let length = element.duration;
-          let startDate = element.start_date;
-          const dates = [];
-          while (length > 0) {
-            dates.push(startDate);
-            startDate++;
-            length--;
-          }
-          allBooking.push({ month: element.month_of_booking, dates });
-        });
-        // sort booking data by date in ascending order
-        allBooking.sort((a, b) => new Date(a.checkin) - new Date(b.checkin));
+    // this.props.getBooking((err, results) => {
+    //   if (err) {
+    //     console.log('Response Error: ', err);
+    //   } else {
+    //     const monthlyBooking = results.data;
+    //     const allBooking = [];
+    //     monthlyBooking.forEach((element) => {
+    //       let length = element.duration;
+    //       let startDate = element.start_date;
+    //       const dates = [];
+    //       while (length > 0) {
+    //         dates.push(startDate);
+    //         startDate++;
+    //         length--;
+    //       }
+    //       allBooking.push({ month: element.month_of_booking, dates });
+    //     });
+    //     // sort booking data by date in ascending order
+    //     allBooking.sort((a, b) => new Date(a.checkin) - new Date(b.checkin));
 
-        this.setState({
-          currentBookings: allBooking,
-        }, () => console.log(this.state.currentBookings));
-      }
-    });
+    //     this.setState({
+    //       currentBookings: allBooking,
+    //     }, () => console.log(this.state.currentBookings));
+    //   }
+    // });
   }
 
   handleBlockouts() {
