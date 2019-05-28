@@ -63,17 +63,32 @@ class App extends React.Component {
       });
   }
 
-  getBooking(callback) {
+  getBooking() {
     axios.get('/bookings', {
       params: {
         ID: this.state.currentListing.id,
       },
     })
       .then((response) => {
-        callback(null, response);
+        const monthlyBooking = response.data;
+        const allBooking = [];
+        monthlyBooking.forEach((element) => {
+          let length = element.duration;
+          let startDate = element.start_date;
+          const dates = [];
+          while (length > 0) {
+            dates.push(startDate);
+            startDate++;
+            length--;
+          }
+          allBooking.push({ month: element.month_of_booking, dates });
+        });
+        this.setState({
+          bookings: allBooking,
+        });
       })
       .catch((error) => {
-        callback(error);
+        throw (error);
       });
   }
 
