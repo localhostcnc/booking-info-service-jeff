@@ -37,15 +37,31 @@ const Weekday = styled.section`
 `;
 
 const DayOfMonth = styled.section`
-  padding-left: 10px;
-  padding-right: 12px;
+  padding-left: 12.5px;
+  padding-right: 13px;
   font-style: bold;
   display: inline;
+  font-size: 13px;
+  color: #707070;
 `;
 
 const CalendarDay = styled.section`
   display: table-cell;
-  padding: 11px 11px 11px 11px;
+  padding: 12.5px 12.5px 12.5px 12.5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: auto;
+  text-align: center;
+  margin-top: -1;
+  margin-left: -1;
+  color: 	#909090;
+  border: solid;
+  font-size: 12px;
+`;
+
+const AvailCalendarDay = styled.section`
+  display: table-cell;
+  padding: 12.5px 12.5px 12.5px 12.5px;
   text-overflow: ellipsis;
   overflow: hidden;
   width: auto;
@@ -54,6 +70,11 @@ const CalendarDay = styled.section`
   margin-left: -1;
   color: #D0D0D0;
   border: solid;
+  font-size: 12px;
+  cursor: pointer;
+  :hover {
+    background: #DCDCDC;
+  }
 `;
 
 const CalendarTitle = styled.section`
@@ -64,6 +85,7 @@ const CalendarTitle = styled.section`
   padding-left: 43px;
   padding-right: 50px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 const CalendarBody = styled.section`
@@ -86,6 +108,7 @@ const RightArrow = styled.section`
   border-width: thin;
   border-radius: 2px;
   color: #D0D0D0;
+  cursor: pointer;
 `;
 
 const LeftArrow = styled.section`
@@ -97,22 +120,8 @@ const LeftArrow = styled.section`
   border-width: thin;
   border-radius: 2px;
   color: #D0D0D0;
+  cursor: pointer;
 `;
-
-const LittleTriangle = styled.section`
-  float: right;
-  margin-top: 30px;
-  margin-right: -12px;
-  border-color: transparent #368489 transparent transparent;
-  border-style: solid;
-  border-width: 25px 25px 0px 25px;
-  height: 0px;
-  width: 0px;
-  opacity: .75;
-  color: white;
-  text-align: center;
-`;
-
 
 const modalStyle = {
   overlay: {
@@ -123,7 +132,7 @@ const modalStyle = {
     marginTop: '125px',
     marginLeft: '-1px',
     borderTop: '2px solid #368489',
-    height: '310px',
+    height: '290px',
     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px',
   },
 };
@@ -141,6 +150,12 @@ class Calendar extends React.Component {
       currentBookings: [],
       bookingsThisMonth: [],
       checkInOn: false,
+      selectedDay: '',
+      dateSelected: null,
+      bgColor: '',
+      latestCheckoutDate: '',
+      nightsBooked: '',
+      checkoutDay: '',
     };
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
@@ -271,6 +286,43 @@ class Calendar extends React.Component {
 
   onDayClick(e) {
     const dayClicked = Number(e.target.innerText);
+    const formattedDate = this.state.currentMonth.startOf('month').add(dayClicked - 1, 'days');
+    // let latestCheckoutDate;
+    // let checkinDay;
+    // let checkoutDay;
+    // let nightsBooked;
+
+    this.setState({
+      selectedDay: dayClicked,
+      bgColor: '#368489',
+    }, () => console.log(this.state.selectedDay));
+
+
+    
+    // if (!this.state.latestCheckoutDate) {
+    //   for (let i = 0; i < this.state.bookingsThisMonth.length; i += 1) {
+    //     let blockedDate = this.state.bookings[i].checkin;
+    //     if (new Date(blockedDate) > new Date(formattedDate.format('MMMM DD YYYY'))) {
+    //       latestCheckoutDate = moment(blockedDate);
+    //       break;
+    //     }
+    //   }
+    //   this.setState({
+    //     selectedDay: dayClicked,
+    //     dateSelected: formattedDate,
+    //     latestCheckoutDate: latestCheckoutDate
+    //   });
+    // } else if (!(formattedDate > this.state.latestCheckoutDate)) {
+    //   checkoutDay = Number(formattedDate.format('D'));
+    //   checkinDay = this.state.selectedDay;
+    //   nightsBooked = checkoutDay - checkinDay;
+
+    //   this.setState({
+    //     currentCheckoutDate: formattedDate,
+    //     nightsBooked: nightsBooked,
+    //     checkoutDay: checkoutDay
+    //   });
+    // }
   }
 
   monthFormatter() {
@@ -299,18 +351,24 @@ class Calendar extends React.Component {
     for (let i = 1; i <= iterateArr.length; i++) {
       if (monthArr.includes(iterateArr[i])) {
         blockedOffDaysInAMonth.push(
-          <CalendarDay style={{ opacity: '.5', textDecoration: 'line-through', borderWidth: 'thin', fontColor: '#D0D0D0' }} key={i}>
+          <CalendarDay style={{ opacity: '.3', textDecoration: 'line-through', borderWidth: 'thin', fontColor: '#D0D0D0' }} key={i}>
             {i}
           </CalendarDay>,
         );
       } else {
         availableDaysInAMonth.push(
-          <CalendarDay style={{ borderWidth: 'thin', borderColor: '#D0D0D0', color: 'black' }} key={i}>
+          <AvailCalendarDay style={{ borderWidth: 'thin', borderColor: '#D0D0D0', color: 'black' }} key={i}>
             {i}
-          </CalendarDay>,
+          </AvailCalendarDay>,
         );
       }
     }
+
+    availableDaysInAMonth.forEach((element) => {
+      if (Number(element.key) === element.key) {
+        element.type.componentStyle.rules[0] += 'background-color: #368489;↵ ';
+      }
+    });
 
     const sortArr = [...availableDaysInAMonth, ...blockedOffDaysInAMonth];
     sortArr.sort((a, b) => a.key - b.key);
@@ -368,9 +426,6 @@ class Calendar extends React.Component {
           <CalendarBody>
             {this.monthFormatter()}
           </CalendarBody>
-          <LittleTriangle>
-            ?
-          </LittleTriangle>
         </ReactModal>
       </Wrapper>
     );

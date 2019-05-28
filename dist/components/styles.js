@@ -33,6 +33,7 @@ export const Reviews = styled.section`
   margin-left: 8%;
   font-size: 12px;
   padding-top: 2px;
+  cursor: pointer;
 `;
 
 export const DatesHeader = styled.section`
@@ -60,6 +61,7 @@ export const CheckIn = styled.section`
   text-align: left;
   padding: 5px 50px 5px 5px;
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 export const CheckOut = styled.section`
@@ -70,6 +72,7 @@ export const CheckOut = styled.section`
   font-weight: lighter;
   padding: 5px 50px 5px 5px;
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 export const Arrow = styled.section`
@@ -95,6 +98,7 @@ export const GuestWrapper = styled.section`
   margin-right: 8%;
   padding-top: 12px;
   padding-bottom: 12px;
+  cursor: pointer;
 `;
 
 export const Book = styled.section`
@@ -113,6 +117,7 @@ export const Button = styled.section`
   background-color: #fc534e;
   border-radius: 7px;
   font-size: 16px;
+  cursor: pointer;
 `;
 
 export const ChargedYet = styled.section`
