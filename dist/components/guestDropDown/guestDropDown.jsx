@@ -28,6 +28,7 @@ const Title = styled.section`
   margin-top: -100px;
   border-radius: 5px;
   padding: 5px 5px 5px 5px;
+  cursor: pointer;
 `;
 
 const InfantTitle = styled.section`
@@ -59,6 +60,7 @@ const PlusCircle = styled.section`
   padding: 4px 6px 3.5px 6px;
   border-width: thin;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
 const MinusCircle = styled.section`
@@ -72,7 +74,8 @@ const MinusCircle = styled.section`
   margin-left: 20px;
   padding: 4px 6px 3.5px 6px;
   opacity: 0.5;
-  border-width: thin;
+  border-width: thin;  
+  cursor: pointer;
 `;
 
 const TotalAdults = styled.section`
@@ -129,6 +132,7 @@ const Close = styled.section`
   padding-left: 200px;
   text-align: right;
   color: #368489;
+  cursor: pointer;
 `;
 
 const modalStyle = {
