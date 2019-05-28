@@ -35,5 +35,11 @@ From within the root directory:
 
 ```sh
 npm install
+server "start": "nodemon server/index.js",
+database access: "database": "mysql -u root -p",
+linter: "eslint": "eslint *.js",
+webpack "react-dev": "webpack -d --watch",
+jest "test": "jest --watch --coverage",
+super test "supertest": "mocha 'test/apiTest.js'"
 ```
 
