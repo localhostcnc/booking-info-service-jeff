@@ -93,21 +93,8 @@ export const GuestWrapper = styled.section`
   border-color: #D0D0D0
   margin-left: 8%;
   margin-right: 8%;
-  padding-top: 14px;
-  padding-bottom: 14px;
-`;
-
-export const Guests = styled.section`
-  margin-left: 5%;
-  text-align: left;
-  display: inline-block;
-  margin-right: 200px;
-  font-size: 17px;
-  font-weight: lighter;
-`;
-
-export const AngleDown = styled.section`
-  display: inline-block;
+  padding-top: 12px;
+  padding-bottom: 12px;
 `;
 
 export const Book = styled.section`
