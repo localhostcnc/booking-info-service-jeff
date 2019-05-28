@@ -18,6 +18,7 @@
 ## Usage
 
 > 1. npm run createDb (only if you haven't already created the database this)
+>   user and password needs to be changed to match your local info
 > 2. npm run seed (starting the serving fills database upon connection)
 
 ## Requirements
@@ -34,12 +35,12 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 From within the root directory:
 
 ```sh
-npm install
-server "start" - "nodemon server/index.js",
-database access - "database": "mysql -u root -p",
-linter: "eslint" - "eslint *.js",
-webpack "react-dev" - "webpack -d --watch",
-jest "test" - "jest --watch --coverage",
-super test "supertest" - "mocha 'test/apiTest.js'"
+npm install -----
+"start" -  server - "nodemon server/index.js",
+"database" - database access - "mysql -u root -p",
+"eslint" - linter - "eslint *.js",
+"react-dev" - webpack - "webpack -d --watch",
+"test" - jest - "jest --watch --coverage",
+"supertest" - supertest - "mocha 'test/apiTest.js'"
 ```
 
