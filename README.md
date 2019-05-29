@@ -4,7 +4,6 @@
 
 ## Related Projects
 
-- https://github.com/localhostcnc/top-image-bar
 - https://github.com/localhostcnc/reviewList-ak
 - https://github.com/localhostcnc/calendar-component-kt
 - https://github.com/localhostcnc/listinginfo
