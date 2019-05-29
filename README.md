@@ -17,9 +17,10 @@
 
 ## Usage
 
-> 1. npm run createDb (only if you haven't already created the database this)
->   user and password needs to be changed to match your local info
-> 2. npm run seed (starting the serving fills database upon connection)
+> 1. npm install
+> 2. npm run createDb (only if you haven't already created the database this)
+>   *user and password needs to be changed to match your local info*
+> 3. npm run seed (starting the serving fills database upon connection)
 
 ## Requirements
 
