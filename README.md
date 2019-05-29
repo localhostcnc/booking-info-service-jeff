@@ -19,7 +19,7 @@
 
 > 1. npm install
 > 2. npm run createDb (only if you haven't already created the database this)
->   *user and password needs to be changed to match your local info in both database/index.js and sqlDataGenerator.js*
+>     *user and password needs to be changed to match your local info in both database/index.js and sqlDataGenerator.js*
 > 3. npm run seed (starting the serving fills database upon connection)
 > 4. npm run database (if you want to take a look at the database)
 > 5. npm start
