@@ -140,7 +140,8 @@ const modalStyle = {
   content: {
     width: '22%',
     marginTop: '199px',
-    marginLeft: '-1px',
+    marginLeft: '769px',
+    position: 'fixed',
     height: '270px',
     borderTop: '2px solid #368489',
     position: 'absolute',

@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 export const GlobalStyles = createGlobalStyle`
   body {
     @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-    font-family: 'Notable', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 `;
 
@@ -13,6 +13,8 @@ export const Wrapper = styled.section`
   border-color: #D0D0D0
   width: 30%;
   color: #484848;
+  margin-left: 770px;
+  position: fixed;
 `;
 
 export const Price = styled.section`
@@ -177,6 +179,8 @@ export const LightBulb = styled.section`
   margin-bottom: 50px;
   height: 100%;
   padding-top: 28px;
+  padding-right: 10px;
+  padding-left: 30px;
 `;
 
 export const TotalPrice = styled.section`
@@ -186,7 +190,7 @@ export const TotalPrice = styled.section`
   font-size: 14px;
   font-weight: lighter;
   display: inline-block;
-  margin-right: 210px;
+  margin-right: 180px;
 `;
 
 export const ServiceFee = styled.section`
@@ -206,7 +210,7 @@ export const OccupancyFeeAndTaxes = styled.section`
   font-size: 14px;
   font-weight: lighter;
   display: inline-block;
-  margin-right: 132px;
+  margin-right: 120px;
 `;
 
 export const Fee1 = styled.section`
@@ -243,7 +247,7 @@ export const Total = styled.section`
   font-size: 14px;
   padding-bottom: 20px;
   display: inline-block;
-  margin-right: 250px;
+  margin-right: 247px;
   font-weight: bolder;
 `;
 

@@ -149,10 +149,10 @@ class App extends React.Component {
             && (
               <div>
                 <TotalPrice>
-                  ${currentListing.price_per_night} x _ nights
+                  ${currentListing.price_per_night} x 2 nights
                 </TotalPrice>
                 <Fee1>
-                  ?
+                  ${currentListing.price_per_night * 2}
                 </Fee1>
                 <Bar3 />
                 <ServiceFee>
@@ -173,7 +173,7 @@ class App extends React.Component {
                   Total
                 </Total>
                 <Fee4>
-                  ${currentListing.price_per_night + currentListing.service_fee + currentListing.occupational_fee}
+                  ${(currentListing.price_per_night * 2) + currentListing.service_fee + currentListing.occupational_fee}
                 </Fee4>
               </div>
             )

@@ -130,9 +130,10 @@ const modalStyle = {
   content: {
     width: '22.5%',
     marginTop: '125px',
-    marginLeft: '-1px',
+    marginLeft: '769px',
+    position: 'fixed',
     borderTop: '2px solid #368489',
-    height: '290px',
+    height: '295px',
     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px',
   },
 };
