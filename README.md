@@ -4,7 +4,6 @@
 
 ## Related Projects
 
-- https://github.com/localhostcnc/top-image-bar
 - https://github.com/localhostcnc/reviewList-ak
 - https://github.com/localhostcnc/calendar-component-kt
 - https://github.com/localhostcnc/listinginfo
@@ -19,7 +18,7 @@
 
 > 1. npm install
 > 2. npm run createDb (only if you haven't already created the database this)
->   *user and password needs to be changed to match your local info in both database/index.js and sqlDataGenerator.js*
+>     *user and password needs to be changed to match your local info in both database/index.js and sqlDataGenerator.js*
 > 3. npm run seed (starting the serving fills database upon connection)
 > 4. npm run database (if you want to take a look at the database)
 > 5. npm start
