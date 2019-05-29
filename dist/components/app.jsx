@@ -136,7 +136,7 @@ class App extends React.Component {
           Dates
           </DatesHeader>
           <Dates>
-            <Calendar bookings={bookings} getBooking={this.getBooking} />
+            <Calendar bookings={bookings} />
           </Dates>
           <GuestHeader>
           Guests

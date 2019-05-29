@@ -5,13 +5,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-indent */
 import React from 'react';
-import onClickOutside from 'react-onclickoutside';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { tsImportEqualsDeclaration } from '@babel/types';
 
 library.add(faAngleUp, faAngleDown, faPlus, faMinus);
 
@@ -328,12 +326,13 @@ class GuestDropDown extends React.Component {
         <Wrapper>
           <Header onClick={() => this.toggleGuestDrop()}>
             <Title style={highlightedDropDown}>
-              {`${guestTotal} ${guestPlural}`}</Title> { showInfants && (
+              {`${guestTotal} ${guestPlural}`}
+            </Title> { showInfants && (
                 <InfantTitle style={highLightedInfant}>
                   {`${infants} ${infantPlural}`}
                 </InfantTitle>
-              )}
-           
+            )}
+
             <AngleDown>
               {modalOpen
                 ? <FontAwesomeIcon icon="angle-up" size="lg" />
@@ -344,7 +343,8 @@ class GuestDropDown extends React.Component {
             <ReactModal
               isOpen={this.state.modalOpen}
               onRequestClose={() => this.setState({ modalOpen: !this.state.modalOpen })}
-              style={modalStyle}>
+              style={modalStyle}
+            >
             <div>
               <Adults>
             Adults

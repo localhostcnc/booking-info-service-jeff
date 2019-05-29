@@ -10,7 +10,7 @@ import Index from '../dist/components/calendar/index.jsx';
 describe('Date acquisition', () => {
   it('should dynamically consider the current date in rendering', () => {
     const wrapper = shallow(<Index />);
-    const moment = Moment().format('d');
-    expect(moment).toEqual(wrapper.state().dateObject.format('d'));
+    const moment = Moment().format('M');
+    expect(moment).toEqual(wrapper.state().dateObject.format('M'));
   });
 });

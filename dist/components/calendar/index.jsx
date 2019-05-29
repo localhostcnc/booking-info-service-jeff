@@ -151,11 +151,8 @@ class Calendar extends React.Component {
       bookingsThisMonth: [],
       checkInOn: false,
       selectedDay: '',
-      dateSelected: null,
       bgColor: '',
-      latestCheckoutDate: '',
-      nightsBooked: '',
-      checkoutDay: '',
+      availableDates: [],
     };
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
@@ -285,44 +282,18 @@ class Calendar extends React.Component {
   }
 
   onDayClick(e) {
-    const dayClicked = Number(e.target.innerText);
-    const formattedDate = this.state.currentMonth.startOf('month').add(dayClicked - 1, 'days');
-    // let latestCheckoutDate;
-    // let checkinDay;
-    // let checkoutDay;
-    // let nightsBooked;
-
-    this.setState({
-      selectedDay: dayClicked,
-      bgColor: '#368489',
-    }, () => console.log(this.state.selectedDay));
-
-
-    
-    // if (!this.state.latestCheckoutDate) {
-    //   for (let i = 0; i < this.state.bookingsThisMonth.length; i += 1) {
-    //     let blockedDate = this.state.bookings[i].checkin;
-    //     if (new Date(blockedDate) > new Date(formattedDate.format('MMMM DD YYYY'))) {
-    //       latestCheckoutDate = moment(blockedDate);
-    //       break;
-    //     }
-    //   }
-    //   this.setState({
-    //     selectedDay: dayClicked,
-    //     dateSelected: formattedDate,
-    //     latestCheckoutDate: latestCheckoutDate
-    //   });
-    // } else if (!(formattedDate > this.state.latestCheckoutDate)) {
-    //   checkoutDay = Number(formattedDate.format('D'));
-    //   checkinDay = this.state.selectedDay;
-    //   nightsBooked = checkoutDay - checkinDay;
-
-    //   this.setState({
-    //     currentCheckoutDate: formattedDate,
-    //     nightsBooked: nightsBooked,
-    //     checkoutDay: checkoutDay
-    //   });
+    // const background = { backgroundColor: '#368489' }
+    // for (let i; i < this.state.availableDates.length; i++) {
+    //   if (this.state.availableDates.length)
     // }
+  }
+
+  grabCalendarDates(dates) {
+    for (let i; i < dates.length; i++) {
+      if (dates[i].key === this.state.selectedDay) {
+        console.log(dates[i]);
+      }
+    }
   }
 
   monthFormatter() {
@@ -357,22 +328,16 @@ class Calendar extends React.Component {
         );
       } else {
         availableDaysInAMonth.push(
-          <AvailCalendarDay style={{ borderWidth: 'thin', borderColor: '#D0D0D0', color: 'black' }} key={i}>
+          <AvailCalendarDay onClick={this.onDayClick} style={{ borderWidth: 'thin', borderColor: '#D0D0D0', color: 'black' }} key={i}>
             {i}
           </AvailCalendarDay>,
         );
       }
     }
 
-    availableDaysInAMonth.forEach((element) => {
-      if (Number(element.key) === element.key) {
-        element.type.componentStyle.rules[0] += 'background-color: #368489;↵ ';
-      }
-    });
-
     const sortArr = [...availableDaysInAMonth, ...blockedOffDaysInAMonth];
-    sortArr.sort((a, b) => a.key - b.key);
-    const totalCalendar = [...fillerDays, ...sortArr];
+    const months = sortArr.sort((a, b) => a.key - b.key);
+    const totalCalendar = [...fillerDays, ...months];
 
     totalCalendar.forEach((row, i) => {
       if (i % 7 !== 0) {
